@@ -1,62 +1,76 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Publisher(models.Model):
-    name = models.CharField()
-    link = models.CharField()
+    name = models.CharField(max_length=64)
+    link = models.CharField(max_length=256)
 
 
 class Series(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=64)
     description = models.TextField()
+
+    class Meta:
+        verbose_name_plural = 'Series'
 
 
 class Shelf(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=64)
     description = models.TextField()
     is_public = models.BooleanField()
 
 
 class Author(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=64)
+    link = models.CharField(max_length=256)
     description = models.TextField()
-    link = models.CharField()
 
 
 class Tag(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=32)
 
 
-class User(models.Model):
-    username = models.CharField()
-    email = models.CharField()
-    password_hash = models.CharField()
-    is_banned = models.BooleanField()
-    created_at = models.DateTimeField()
-    last_login_at = models.DateTimeField()
+# class User(models.Model):
+#     username = models.CharField(max_length=32)
+#     email = models.CharField(max_length=128)
+#     password_hash = models.CharField()
+#     is_banned = models.BooleanField()
+#     created_at = models.DateTimeField()
+#     last_login_at = models.DateTimeField()
 
 
 class Book(models.Model):
-    title = models.CharField()
-    created_at = models.DateTimeField()
+    title = models.CharField(max_length=128)
+    created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField()
-    last_modified = models.DateTimeField()
-    uuid = models.CharField()
-    has_cover = models.BooleanField()
-    rating = models.IntegerField()
+    last_modified = models.DateTimeField(auto_now=True)
+    uuid = models.CharField(max_length=36)
+    has_cover = models.BooleanField(default=False)
+    rating = models.IntegerField(default=0)
     description = models.TextField()
 
-    publisher = models.ForeignKey(Publisher)
-    series = models.ForeignKey(Series)
+    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True)
+    series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
+    authors = models.ManyToManyField(Author)
     tags = models.ManyToManyField(Tag)
     shelves = models.ManyToManyField(Shelf)
 
 
+class Comments(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    content = models.TextField()
+
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+
 class File(models.Model):
-    uuid = models.CharField()
-    extension = models.CharField()
-    md5 = models.CharField()
+    uuid = models.CharField(max_length=36)
+    extension = models.CharField(max_length=8)
+    md5 = models.CharField(max_length=32)
     size = models.IntegerField()
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
@@ -64,7 +78,7 @@ class File(models.Model):
 
 
 class Identifier(models.Model):
-    name = models.CharField()
-    value = models.CharField()
+    name = models.CharField(max_length=24)
+    value = models.CharField(max_length=24)
 
-    book = models.ForeignKey(Book)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
