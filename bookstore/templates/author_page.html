@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% include "_author_info.html" %}
+
+    {% with books=author.books.all %}
+        {% include "_booklist.html" %}
+    {% endwith %}
+{% endblock %}

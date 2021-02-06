@@ -20,5 +20,7 @@ def author_list(request):
 
 def author_page(request, author_id):
     payload = dict()
-    payload['author'] = Author.objects.all()
-    payload['title'] = "Author list"
+    payload['author'] = Author.objects.get(pk=author_id)
+    payload['title'] = payload['author'].name + " books"
+
+    return render(request, 'author_page.html', payload)

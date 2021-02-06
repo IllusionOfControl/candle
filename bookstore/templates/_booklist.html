@@ -1,0 +1,16 @@
+{% block booklist %}
+    <div class="book-list">
+    {% for book in books %}
+        <div class="book" id="{{ book.id}}">
+            <h3>{{ book.title }}</h3>
+            <p>Author:
+                {% for author in book.authors.all %}
+                    {{  author.name }}
+                {% endfor %}
+            </p>
+            <p>Pub date: {{ book.publicated_at }}</p>
+            <p>Rating: {{ book.rating  }}</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}
