@@ -40,3 +40,11 @@ def book_add(request):
 
     payload['form'] = form
     return render(request, 'book_add.html', payload)
+
+
+def book_page(request, book_id):
+    payload = dict()
+    payload['book'] = Book.objects.get(pk=book_id)
+    payload['title'] = payload['book'].title + " books"
+
+    return render(request, 'book_page.html', payload)

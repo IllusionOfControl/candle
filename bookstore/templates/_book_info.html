@@ -1,0 +1,7 @@
+{% block bookinfo %}
+    <div class="book-info">
+        <h3>{{ book.title }}</h3>
+        <p>Description: {{ book.description }}</p>
+{#        <a href="{% url 'book_edit' %}">Edit book</a>#}
+    </div>
+{% endblock %}

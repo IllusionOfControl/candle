@@ -3,6 +3,7 @@
     {% for book in books %}
         <div class="book" id="{{ book.id}}">
             <h3>{{ book.title }}</h3>
+            <a href="{% url 'book_page' book.id %}">link</a>
             <p>Author:
                 {% for author in book.authors.all %}
                     {{  author.name }}
