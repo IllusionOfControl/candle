@@ -35,8 +35,7 @@ def book_add(request):
     if request.method == "POST":
         if form.is_valid():
             book = form.save()
-            # redirect to book page
-            return redirect(reverse('book_page'))
+            return redirect(reverse('book_page', kwargs={'book_id': book.id}))
 
     payload['form'] = form
     return render(request, 'book_add.html', payload)
@@ -48,3 +47,18 @@ def book_page(request, book_id):
     payload['title'] = payload['book'].title + " books"
 
     return render(request, 'book_page.html', payload)
+
+
+def book_edit(request, book_id):
+    payload = dict()
+    book = Book.objects.get(pk=book_id)
+
+    form = BookForm(request.POST or None, instance=book)
+    if request.method == "POST":
+        if form.is_valid():
+            book = form.save()
+            return redirect(reverse('book_page', kwargs={'book_id': book.id}))
+
+    payload['title'] = book.title + " edit"
+    payload['form'] = form
+    return render(request, 'book_add.html', payload)
