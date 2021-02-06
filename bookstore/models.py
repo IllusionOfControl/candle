@@ -50,21 +50,21 @@ class Book(models.Model):
     rating = models.IntegerField(default=0)
     description = models.TextField()
 
-    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True)
-    series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, related_name='books')
+    series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True, related_name='books')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='books')
 
-    authors = models.ManyToManyField(Author)
-    tags = models.ManyToManyField(Tag)
-    shelves = models.ManyToManyField(Shelf)
+    authors = models.ManyToManyField(Author, related_name='books')
+    tags = models.ManyToManyField(Tag, related_name='books')
+    shelves = models.ManyToManyField(Shelf, related_name='books')
 
 
 class Comments(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE,  related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
 
 
 class File(models.Model):
@@ -73,12 +73,12 @@ class File(models.Model):
     md5 = models.CharField(max_length=32)
     size = models.IntegerField()
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
-    uploader = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='files')
+    uploader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='files')
 
 
 class Identifier(models.Model):
     name = models.CharField(max_length=24)
     value = models.CharField(max_length=24)
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='identifiers')
