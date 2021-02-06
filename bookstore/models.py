@@ -58,6 +58,9 @@ class Book(models.Model):
     tags = models.ManyToManyField(Tag, related_name='books')
     shelves = models.ManyToManyField(Shelf, related_name='books')
 
+    def get_authors(self):
+        return self.authors.all()
+
 
 class Comments(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
