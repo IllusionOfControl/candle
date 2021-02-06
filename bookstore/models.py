@@ -43,7 +43,7 @@ class Tag(models.Model):
 class Book(models.Model):
     title = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
-    published_at = models.DateField()
+    published_at = models.DateField(null=True)
     last_modified = models.DateTimeField(auto_now=True)
     uuid = models.CharField(max_length=36)
     has_cover = models.BooleanField(default=False)

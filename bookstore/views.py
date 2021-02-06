@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from bookstore.models import Book, Author
 from bookstore.forms import BookForm
 
@@ -34,7 +34,9 @@ def book_add(request):
     form = BookForm(request.POST or None)
     if request.method == "POST":
         if form.is_valid():
-            pass
+            book = form.save()
+            # redirect to book page
+            return redirect(reverse('book_page'))
 
     payload['form'] = form
     return render(request, 'book_add.html', payload)
