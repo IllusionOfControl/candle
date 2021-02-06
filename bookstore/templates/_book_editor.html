@@ -1,0 +1,12 @@
+{% block bookeditor %}
+    <form action="" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="fieldWrapper">
+            {{ field.label }}
+            {{ field }}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}

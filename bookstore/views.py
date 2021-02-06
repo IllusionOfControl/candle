@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from bookstore.models import Book, Author
+from bookstore.forms import BookForm
 
 
 def index(request):
@@ -24,3 +25,16 @@ def author_page(request, author_id):
     payload['title'] = payload['author'].name + " books"
 
     return render(request, 'author_page.html', payload)
+
+
+def book_add(request):
+    payload = dict()
+    payload['title'] = "Book add"
+
+    form = BookForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            pass
+
+    payload['form'] = form
+    return render(request, 'book_add.html', payload)
