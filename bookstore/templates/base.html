@@ -3,9 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <style>
+        table {
+            {#width: 100%;#}
+        }
+        td {
+            text-align: left;
+            vertical-align: top;
+            font-weight: normal;
+            border-width: 1px;
+            border-style: solid;
+            border-color: black;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-bottom: 15px;
+        }
+    </style>
 </head>
 <body>
-    {% include "_nav_urls.html" %}
-    {% block content %}{% endblock %}
+    <table border="1">
+        <tr>
+            <td>{% include "_nav_urls.html" %}</td>
+            <td>{% block content %}{% endblock %}</td>
+        </tr>
+    </table>
 </body>
 </html>

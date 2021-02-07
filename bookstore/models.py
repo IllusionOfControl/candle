@@ -31,15 +31,6 @@ class Tag(models.Model):
     name = models.CharField(max_length=32)
 
 
-# class User(models.Model):
-#     username = models.CharField(max_length=32)
-#     email = models.CharField(max_length=128)
-#     password_hash = models.CharField()
-#     is_banned = models.BooleanField()
-#     created_at = models.DateTimeField()
-#     last_login_at = models.DateTimeField()
-
-
 class Book(models.Model):
     title = models.CharField(max_length=128)
     created_at = models.DateTimeField(auto_now_add=True)
