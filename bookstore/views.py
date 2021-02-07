@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from bookstore.models import Book, Author
+from bookstore.models import Book, Author, File
 from bookstore.forms import BookForm
 
 
@@ -31,11 +31,20 @@ def book_add(request):
     payload = dict()
     payload['title'] = "Book add"
 
-    form = BookForm(request.POST or None)
+    form = BookForm(request.POST or None,
+                    request.FILES or None)
     if request.method == "POST":
         if form.is_valid():
             book = form.save()
+
+            ext = request.FILES['file'].content_type.split('/')[-1]
+            size = request.FILES['file'].size
+            file = File(book=book, extension=ext, md5='1', size=size, uploader=request.user, uuid='1')
+            file.save()
+
+            print('file saved')
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
+        print('form is not valid')
 
     payload['form'] = form
     return render(request, 'book_add.html', payload)
