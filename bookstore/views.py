@@ -37,12 +37,25 @@ def book_add(request):
         if form.is_valid():
             book = form.save()
 
-            ext = request.FILES['file'].content_type.split('/')[-1]
-            size = request.FILES['file'].size
-            file = File(book=book, extension=ext, md5='1', size=size, uploader=request.user, uuid='1')
-            file.save()
+            import mimetypes
+
+            files = request.FILES.getlist('files')
+
+            from django.core.files.storage import default_storage
+
+            for f in files:
+                ext = mimetypes.guess_extension(f.content_type)
+                size = f.size
+                filename = book.title + "." + ext
+                default_storage.save(filename, f)
+                File(book=book,
+                     extension=ext,
+                     md5='1', size=size,
+                     uploader=request.user,
+                     uuid='1').save()
 
             print('file saved')
+            print(form.files)
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
         print('form is not valid')
 
@@ -62,11 +75,33 @@ def book_edit(request, book_id):
     payload = dict()
     book = Book.objects.get(pk=book_id)
 
-    form = BookForm(request.POST or None, instance=book)
+    form = BookForm(request.POST or None,
+                    request.FILES or None,
+                    instance=book)
     if request.method == "POST":
         if form.is_valid():
             book = form.save()
+
+            import mimetypes
+
+            files = request.FILES.getlist('files')
+
+            from django.core.files.storage import default_storage
+
+            for f in files:
+                ext = mimetypes.guess_extension(f.content_type)
+                size = f.size
+                filename = book.title + "." + ext
+                if default_storage.exists(filename):
+                    default_storage.delete(filename)
+                default_storage.save(filename, f)
+                File(book=book,
+                     extension=ext,
+                     md5='1', size=size,
+                     uploader=request.user,
+                     uuid='1').save()
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
+        print(form.errors)
 
     payload['title'] = book.title + " edit"
     payload['form'] = form
