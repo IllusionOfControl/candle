@@ -154,3 +154,49 @@ def publisher_page(request, publisher_id):
     payload['title'] = payload['publisher'].name + " books"
 
     return render(request, 'publisher_page.html', payload)
+
+
+###
+#
+#   AUTH
+#
+###
+
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout
+
+
+def auth_login(request):
+    if request.method == "POST":
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect(reverse('index'))
+
+    payload = dict()
+    payload['form'] = AuthenticationForm()
+    payload['title'] = 'Login page'
+    return render(request, 'auth/login.html', payload)
+
+
+def auth_logout(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect(reverse('index'))
+
+
+def auth_register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST, request)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(reverse('index'))
+        print(form.errors)
+
+    payload = dict()
+    payload['form'] = UserCreationForm()
+    payload['title'] = 'Register page'
+    return render(request, 'auth/register.html', payload)
+

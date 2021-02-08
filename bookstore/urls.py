@@ -14,4 +14,8 @@ urlpatterns = [
     path('series/<int:series_id>/', series_page, name='series_info'),
     path('publishers/', publisher_list, name='publisher_list'),
     path('publisher/<int:publisher_id>/', publisher_page, name='publisher_info'),
+
+    path('auth/login', auth_login, name='auth_login'),
+    path('auth/logout', auth_logout, name='auth_logout'),
+    path('auth/register', auth_register, name='auth_register')
 ]

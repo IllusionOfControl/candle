@@ -2,8 +2,7 @@
     <div class="book-list">
     {% for book in books %}
         <div class="book" id="{{ book.id}}">
-            <h3>{{ book.title }}</h3>
-            <a href="{% url 'book_page' book.id %}">link</a>
+            <a href="{% url 'book_page' book.id %}">{{ book.title }}</a>
             <p>Author:
                 {% for author in book.authors.all %}
                     {{  author.name }}
@@ -11,6 +10,7 @@
             </p>
             <p>Pub date: {{ book.publicated_at }}</p>
             <p>Rating: {{ book.rating  }}</p>
+        <hr>
         </div>
     {% endfor %}
     </div>

@@ -8,7 +8,17 @@
         <li style="list-style: none"><a href="{% url 'series_list' %}">Series List</a></li>
         <li style="list-style: none"><a href="{% url 'publisher_list' %}">Publisher list</a></li>
         <hr>
-        <li style="list-style: none"><a href="{% url 'admin:index' %}">Admin panel</a></li>
+
+        {% if user.is_authenticated %}
+            <p>Hello, <b>{{ user.username }}</b></p>
+            <li style="list-style: none"><a href="{% url 'auth_logout' %}">Logout</a></li>
+            {% if user.is_superuser %}
+                <li style="list-style: none"><a href="{% url 'admin:index' %}">Admin panel</a></li>
+            {% endif %}
+        {% else %}
+            <li style="list-style: none"><a href="{% url 'auth_login' %}">Login</a></li>
+            <li style="list-style: none"><a href="{% url 'auth_register' %}">Register</a></li>
+        {% endif %}
     </ul>
 </nav>
 {% endblock %}
