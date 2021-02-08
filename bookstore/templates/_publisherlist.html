@@ -2,8 +2,7 @@
     <div class="publisher-list">
     {% for publisher in publishers %}
         <div class="series" id="{{ publisher.id}}">
-            <p>{{ publisher.name }}</p>
-            <p><a href="{% url 'publisher_info' publisher.id %}">link</a> (for book list) ({{ publisher.books.count }})</p>
+            <p><a href="{% url 'publisher_info' publisher.id %}">{{ publisher.name }}</a> ({{ publisher.books.count }})</p>
         </div>
     {% endfor %}
     </div>

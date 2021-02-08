@@ -3,12 +3,12 @@
     <ul>
         <li style="list-style: none"><a href="{% url 'index' %}">Book list</a></li>
         <li style="list-style: none"><a href="{% url 'authors' %}">Author list</a></li>
-        <li style="list-style: none"><a href="{% url 'book_add' %}">Book add</a></li>
         <li style="list-style: none"><a href="{% url 'tag_list' %}">Tag List</a></li>
         <li style="list-style: none"><a href="{% url 'series_list' %}">Series List</a></li>
         <li style="list-style: none"><a href="{% url 'publisher_list' %}">Publisher list</a></li>
         <hr>
-
+        <li style="list-style: none"><a href="{% url 'book_add' %}">Book add</a></li>
+        <hr>
         {% if user.is_authenticated %}
             <p>Hello, <b>{{ user.username }}</b></p>
             <li style="list-style: none"><a href="{% url 'auth_logout' %}">Logout</a></li>
