@@ -4,8 +4,9 @@ from .models import Book
 
 class BookForm(forms.ModelForm):
 
-    file = forms.FileField(label='Book file')
+    # TODO: Add a custom file field to restrict identical MIMETYPE
+    files = forms.FileField(label='Book file', widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     class Meta:
         model = Book
-        fields = ['title', 'description', 'rating']
+        fields = ['title', 'description', 'rating', 'tags', 'series']

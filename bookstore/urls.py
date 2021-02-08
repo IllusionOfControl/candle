@@ -10,5 +10,8 @@ urlpatterns = [
     path('book/<int:book_id>/edit', book_edit, name='book_edit'),
     path('tags/', tag_list, name='tag_list'),
     path('tag/<int:tag_id>/', tag_page, name='tag_page'),
-
+    path('series/', series_list, name='series_list'),
+    path('series/<int:series_id>/', series_page, name='series_info'),
+    path('publishers/', publisher_list, name='publisher_list'),
+    path('publisher/<int:publisher_id>/', publisher_page, name='publisher_info'),
 ]

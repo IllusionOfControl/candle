@@ -1,0 +1,10 @@
+{% block taglist %}
+    <div class="series-list">
+    {% for book_series in series %}
+        <div class="series" id="{{ book_series.id}}">
+            <p>{{ book_series.name }}</p>
+            <p><a href="{% url 'series_info' book_series.id %}">link</a> (for book list) ({{ book_series.books.count }})</p>
+        </div>
+    {% endfor %}
+    </div>
+{% endblock %}

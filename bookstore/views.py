@@ -87,3 +87,35 @@ def tag_page(request, tag_id):
     payload['title'] = payload['tag'].name + " books"
 
     return render(request, 'tag_page.html', payload)
+
+
+def series_list(request):
+    payload = dict()
+    payload['series'] = Series.objects.all()
+    payload['title'] = "Series list"
+
+    return render(request, 'series.html', payload)
+
+
+def series_page(request, series_id):
+    payload = dict()
+    payload['series'] = Series.objects.get(pk=series_id)
+    payload['title'] = payload['series'].name + " books"
+
+    return render(request, 'series_page.html', payload)
+
+
+def publisher_list(request):
+    payload = dict()
+    payload['publishers'] = Publisher.objects.all()
+    payload['title'] = "Publisher list"
+
+    return render(request, 'publishers.html', payload)
+
+
+def publisher_page(request, publisher_id):
+    payload = dict()
+    payload['publisher'] = Publisher.objects.get(pk=publisher_id)
+    payload['title'] = payload['publisher'].name + " books"
+
+    return render(request, 'publisher_page.html', payload)

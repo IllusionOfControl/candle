@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% include "_series_info.html" %}
+
+    {% with books=series.books.all %}
+        {% include "_booklist.html" %}
+    {% endwith %}
+{% endblock %}
