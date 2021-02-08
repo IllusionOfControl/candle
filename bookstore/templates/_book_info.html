@@ -3,5 +3,11 @@
         <h3>{{ book.title }}</h3>
         <p>Description: {{ book.description }}</p>
         <a href="{% url 'book_edit' book.id %}">Edit book</a>
+        <p>Files:</p>
+        <div>
+            {% for file in book.files.all %}
+                <p>{{ book.title }}.{{ file.extension }}</p>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from bookstore.models import Book, Author, File
+from bookstore.models import *
 from bookstore.forms import BookForm
 
 
@@ -71,3 +71,19 @@ def book_edit(request, book_id):
     payload['title'] = book.title + " edit"
     payload['form'] = form
     return render(request, 'book_add.html', payload)
+
+
+def tag_list(request):
+    payload = dict()
+    payload['tags'] = Tag.objects.all()
+    payload['title'] = "Tag list"
+
+    return render(request, 'tags.html', payload)
+
+
+def tag_page(request, tag_id):
+    payload = dict()
+    payload['tag'] = Tag.objects.get(pk=tag_id)
+    payload['title'] = payload['tag'].name + " books"
+
+    return render(request, 'tag_page.html', payload)

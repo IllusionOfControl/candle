@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% include "_tag_info.html" %}
+
+    {% with books=tag.books.all %}
+        {% include "_booklist.html" %}
+    {% endwith %}
+{% endblock %}
