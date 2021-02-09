@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div>
+        <p>Results by books ({{ books.count }})</p>
+        {% for book in books %}
+            <p><a href="{% url 'book_page' book.id %}">{{ book.title }}</a></p>
+        {% endfor %}
+        <hr>
+    </div>
+    <div>
+        <p>Results by publishers ({{ publishers.count }})</p>
+        {% for publisher in publishers %}
+            <p><a href="{% url 'publisher_info' publisher.id %}">{{ publisher.name }}</a></p>
+        {% endfor %}
+        <hr>
+    </div>
+    <div>
+        <p>Results by authors ({{ authors.count }})</p>
+        {% for author in authors %}
+            <p><a href="{% url 'author_page' author.id %}">{{ author.name }}</a></p>
+        {% endfor %}
+        <hr>
+    </div>
+        <div>
+        <p>Results by series ({{ series.count }})</p>
+        {% for book_series in series %}
+            <p><a href="{% url 'series_info' book_series.id %}">{{ book_series.name }}</a></p>
+        {% endfor %}
+        <hr>
+    </div>
+        <div>
+        <p>Results by tags ({{ tags.count }})</p>
+        {% for tag in tags %}
+            <p><a href="{% url 'tag_page' tag.id %}">{{ tag.name }}</a></p>
+        {% endfor %}
+        <hr>
+    </div>
+{% endblock %}

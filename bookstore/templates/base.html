@@ -24,8 +24,25 @@
 <body>
     <table border="1">
         <tr>
-            <td>{% include "_nav_urls.html" %}</td>
-            <td>{% block content %}{% endblock %}</td>
+            <td>
+                {% include "_nav_urls.html" %}
+                <hr>
+                <form action="{% url 'search' %}">
+                    <input type="text" name="query">
+                    <input type="submit" value="Submit">
+                </form>
+            </td>
+            <td>
+                {% if messages %}
+                    <ul class="messages", style="background: yellow; ">
+                    {% for message in messages %}
+                    <li style="list-style: none" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% block content %}{% endblock %}
+            </td>
         </tr>
     </table>
 </body>

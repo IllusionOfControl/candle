@@ -19,5 +19,6 @@ urlpatterns = [
     path('auth/logout', auth_logout, name='auth_logout'),
     path('auth/register', auth_register, name='auth_register'),
 
-    path('file/<int:file_id>', download_file, name='download_file')
+    path('file/<int:file_id>', download_file, name='download_file'),
+    path('search/', search, name='search')
 ]

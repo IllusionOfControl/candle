@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from django.http import Http404, HttpResponse
 from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
+from django.db.models import Q
+from django.contrib import messages
 from bookstore.models import *
 from bookstore.forms import BookForm
 import mimetypes
@@ -165,6 +167,23 @@ def download_file(request, file_id):
         response['Content-Disposition'] = 'attachment; filename=' + filename
         return response
     return Http404
+
+
+def search(request):
+    query = request.GET.get('query', '')
+    if len(query) < 3:
+        messages.info(request, 'Query must have min 3 character!')
+        return redirect(request.META.get('HTTP_REFERER'))
+    payload = dict()
+    payload['books'] = Book.objects.filter(Q(title__contains=query, description__contains=query))[:5]
+    payload['authors'] = Author.objects.filter(Q(name__contains=query))[:5]
+    payload['publishers'] = Publisher.objects.filter(Q(name__contains=query))[:5]
+    payload['series'] = Series.objects.filter(Q(name__contains=query))[:5]
+    payload['tags'] = Tag.objects.filter(Q(name__contains=query))[:5]
+
+    payload['title'] = "Result search by " + query
+
+    return render(request, 'search_page.html', payload)
 
 ###
 #
