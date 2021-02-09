@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <p>Results by books ({{ books.count }})</p>
+        <p>Results by books ({{ books.count }}). <a href="{% url 'search_by_subject' 'books' %}?query={{ query }}">More...</a></p>
         {% for book in books %}
             <p><a href="{% url 'book_page' book.id %}">{{ book.title }}</a></p>
         {% endfor %}

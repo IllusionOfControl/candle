@@ -175,6 +175,7 @@ def search(request):
         messages.info(request, 'Query must have min 3 character!')
         return redirect(request.META.get('HTTP_REFERER'))
     payload = dict()
+    payload['query'] = query
     payload['books'] = Book.objects.filter(Q(title__contains=query, description__contains=query))[:5]
     payload['authors'] = Author.objects.filter(Q(name__contains=query))[:5]
     payload['publishers'] = Publisher.objects.filter(Q(name__contains=query))[:5]
@@ -184,6 +185,29 @@ def search(request):
     payload['title'] = "Result search by " + query
 
     return render(request, 'search_page.html', payload)
+
+
+def search_subject(request, subject):
+    query = request.GET.get('query', '')
+    if len(query) < 3:
+        messages.info(request, 'Query must have min 3 character!')
+        return redirect(request.META.get('HTTP_REFERER'))
+    elif subject == 'books':
+        model_filter = Q(title__contains=query, description__contains=query)
+        model = Book
+    elif subject == 'author':
+        model_filter = Q(name__contains=query)
+        model = Author
+    # etc:
+    else:
+        return Http404
+
+    objects = model.objects.filter(model_filter)
+    payload = dict()
+    payload['subject'] = subject
+    payload[subject] = objects
+    payload['title'] = "Result search by " + query
+    return render(request, 'search_by_subject.html', payload)
 
 ###
 #

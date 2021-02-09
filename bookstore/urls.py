@@ -20,5 +20,6 @@ urlpatterns = [
     path('auth/register', auth_register, name='auth_register'),
 
     path('file/<int:file_id>', download_file, name='download_file'),
-    path('search/', search, name='search')
+    path('search/', search, name='search'),
+    path('search/<str:subject>', search_subject, name='search_by_subject')
 ]
