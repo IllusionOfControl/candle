@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect, reverse
+from django.http import Http404, HttpResponse
+from django.core.files.storage import default_storage
+from django.utils.text import get_valid_filename
 from bookstore.models import *
 from bookstore.forms import BookForm
+import mimetypes
 
 
 def index(request):
@@ -37,25 +41,23 @@ def book_add(request):
         if form.is_valid():
             book = form.save()
 
-            import mimetypes
-
             files = request.FILES.getlist('files')
-
-            from django.core.files.storage import default_storage
 
             for f in files:
                 ext = mimetypes.guess_extension(f.content_type)
                 size = f.size
-                filename = book.title + "." + ext
-                default_storage.save(filename, f)
-                File(book=book,
-                     extension=ext,
-                     md5='1', size=size,
-                     uploader=request.user,
-                     uuid='1').save()
 
-            print('file saved')
-            print(form.files)
+                old_file = File.objects.filter(book=book, extension=ext).first()
+                if old_file:
+                    default_storage.delete(old_file.uuid)
+                    old_file.delete()
+                new_file = File(book=book,
+                                extension=ext,
+                                md5='1', size=size,
+                                uploader=request.user,
+                                uuid='1').save()
+                default_storage.save(new_file.uuid, f)
+
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
         print('form is not valid')
 
@@ -82,26 +84,24 @@ def book_edit(request, book_id):
         if form.is_valid():
             book = form.save()
 
-            import mimetypes
-
             files = request.FILES.getlist('files')
-
-            from django.core.files.storage import default_storage
 
             for f in files:
                 ext = mimetypes.guess_extension(f.content_type)
                 size = f.size
-                filename = book.title + "." + ext
-                if default_storage.exists(filename):
-                    default_storage.delete(filename)
-                default_storage.save(filename, f)
-                File(book=book,
-                     extension=ext,
-                     md5='1', size=size,
-                     uploader=request.user,
-                     uuid='1').save()
+
+                old_file = File.objects.filter(book=book, extension=ext).first()
+                if old_file:
+                    default_storage.delete(old_file.uuid)
+                    old_file.delete()
+                new_file = File(book=book,
+                                extension=ext,
+                                md5='1', size=size,
+                                uploader=request.user)
+                default_storage.save(new_file.uuid, f)
+                new_file.save()
+
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
-        print(form.errors)
 
     payload['title'] = book.title + " edit"
     payload['form'] = form
@@ -155,6 +155,16 @@ def publisher_page(request, publisher_id):
 
     return render(request, 'publisher_page.html', payload)
 
+
+def download_file(request, file_id):
+    file = File.objects.get(id=file_id)
+    if file:
+        response = HttpResponse(default_storage.open(file.uuid).read(),
+                                content_type=mimetypes.guess_type(file.extension))
+        filename = get_valid_filename(file.book.title + file.extension)
+        response['Content-Disposition'] = 'attachment; filename=' + filename
+        return response
+    return Http404
 
 ###
 #

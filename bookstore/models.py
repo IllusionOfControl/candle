@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 
 class Publisher(models.Model):
@@ -62,7 +63,7 @@ class Comments(models.Model):
 
 
 class File(models.Model):
-    uuid = models.CharField(max_length=36)
+    uuid = models.CharField(max_length=36, default=uuid.uuid4().hex)
     extension = models.CharField(max_length=8)
     md5 = models.CharField(max_length=32)
     size = models.IntegerField()
