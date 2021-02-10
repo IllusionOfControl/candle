@@ -110,6 +110,7 @@ def book_edit(request, book_id):
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))
 
     payload['title'] = book.title + " edit"
+    payload['files'] = book.files.all()
     payload['form'] = form
     return render(request, 'book_add.html', payload)
 
@@ -212,6 +213,17 @@ def search_subject(request, subject):
     payload[subject] = objects
     payload['title'] = "Result search by " + query
     return render(request, 'search_by_subject.html', payload)
+
+
+def file_delete(request, file_id):
+    file = File.objects.get(id=file_id)
+    if not file:
+        return Http404
+    book_id = file.book.id
+    default_storage.delete(file.uuid)
+    file.delete()
+    return redirect(reverse('book_edit', kwargs={'book_id': book_id}))
+
 
 ###
 #

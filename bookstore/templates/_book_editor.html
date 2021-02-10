@@ -9,4 +9,11 @@
         {% endfor %}
         <input type="submit" value="Submit">
     </form>
+    {% if files %}
+        <ul>
+            {% for file in files %}
+                <li>{{ file.extension }} - <a href="{% url 'file_delete' file.id %}">Delete</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% endblock %}
