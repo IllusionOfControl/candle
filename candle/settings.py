@@ -122,3 +122,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = 'storage/'
+
+ITEMS_PER_PAGE = 20

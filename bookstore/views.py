@@ -4,14 +4,18 @@ from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
 from django.db.models import Q
 from django.contrib import messages
+from django.core.paginator import Paginator
 from bookstore.models import *
 from bookstore.forms import BookForm
 import mimetypes
 
 
 def index(request):
+    page_num = request.GET.get('page', 1)
     payload = dict()
     payload['books'] = Book.objects.all()
+    paginator = Paginator(payload['books'], 30)
+    payload['books'] = paginator.get_page(page_num)
     payload['title'] = "Book list"
 
     return render(request, 'index.html', payload)
@@ -56,8 +60,8 @@ def book_add(request):
                 new_file = File(book=book,
                                 extension=ext,
                                 md5='1', size=size,
-                                uploader=request.user,
-                                uuid='1').save()
+                                uploader=request.user)
+                new_file.save()
                 default_storage.save(new_file.uuid, f)
 
             return redirect(reverse('book_page', kwargs={'book_id': book.id}))

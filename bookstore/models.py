@@ -42,12 +42,12 @@ class Book(models.Model):
     rating = models.IntegerField(default=0)
     description = models.TextField()
 
-    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, related_name='books')
-    series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True, related_name='books')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='books')
+    publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, related_name='books', blank=True)
+    series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True, related_name='books', blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='books', blank=True)
 
-    authors = models.ManyToManyField(Author, related_name='books')
-    tags = models.ManyToManyField(Tag, related_name='books')
+    authors = models.ManyToManyField(Author, related_name='books', blank=True)
+    tags = models.ManyToManyField(Tag, related_name='books', blank=True)
     shelves = models.ManyToManyField(Shelf, related_name='books')
 
     def get_authors(self):
