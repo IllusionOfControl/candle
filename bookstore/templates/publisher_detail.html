@@ -1,12 +1,12 @@
 {% extends "_base.html" %}
 
 {% block content %}
-    <div class="tag-info">
-        <h3>{{ tag.name }}</h3>
+    <div class="publisher-info">
+        <h3>{{ publisher.name }}</h3>
         <p>Books:</p>
     </div>
 
-    {% with books=tag.books.all %}
+    {% with books=publisher.books.all %}
         {% include "_book_list.html" %}
     {% endwith %}
 {% endblock %}

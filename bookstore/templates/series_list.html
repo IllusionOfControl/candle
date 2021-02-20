@@ -1,5 +1,11 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
-    {% include "_serieslist.html" %}
+    <div class="series-list">
+    {% for book_series in series %}
+        <div class="series" id="{{ book_series.id }}">
+            <p><a href="{% url 'series-detail' book_series.id %}">{{ book_series.name }}</a> ({{ book_series.books.count }})</p>
+        </div>
+    {% endfor %}
+    </div>
 {% endblock %}

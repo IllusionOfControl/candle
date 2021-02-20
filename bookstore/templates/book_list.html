@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
-    {% include "_booklist.html" %}
+    {% include "_book_list.html" %}
 
     {% with page_obj=books %}
         {% include "_pagination.html" %}

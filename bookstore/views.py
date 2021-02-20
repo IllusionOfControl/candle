@@ -38,7 +38,7 @@ class BookDetailView(DetailView):
 
 
 class BookAddView(CreateView):
-    template_name = 'book_add.html'
+    template_name = 'book_editor.html'
     model = Book
     form_class = BookForm
 
@@ -62,7 +62,7 @@ class BookAddView(CreateView):
 
 
 class BookEditView(UpdateView):
-    template_name = 'book_add.html'
+    template_name = 'book_editor.html'
     model = Book
     form_class = BookForm
 
@@ -93,7 +93,7 @@ class BookEditView(UpdateView):
 
 class AuthorListView(ListView):
     model = Author
-    template_name = 'authors.html'
+    template_name = 'author_list.html'
     context_object_name = 'authors'
 
     def get_context_data(self, **kwargs):
@@ -104,7 +104,7 @@ class AuthorListView(ListView):
 
 class AuthorDetailView(DetailView):
     model = Author
-    template_name = 'author_page.html'
+    template_name = 'author_detail.html'
     context_object_name = 'author'
     paginate_by = settings.ITEMS_PER_PAGE
 
@@ -162,7 +162,7 @@ class SeriesDetailView(DetailView):
 
 class PublisherListView(ListView):
     model = Publisher
-    template_name = 'publishers.html'
+    template_name = 'publisher_list.html'
     context_object_name = 'publishers'
 
     def get_context_data(self, **kwargs):
@@ -173,7 +173,7 @@ class PublisherListView(ListView):
 
 class PublisherDetailView(DetailView):
     model = Publisher
-    template_name = 'publisher_page.html'
+    template_name = 'publisher_detail.html'
     context_object_name = 'publisher'
     paginate_by = settings.ITEMS_PER_PAGE
 

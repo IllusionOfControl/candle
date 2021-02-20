@@ -1,0 +1,12 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <div class="author-info">
+        <h3>{{ author.name }}</h3>
+        <p>Description: {{ author.description }}</p>
+    </div>
+
+    {% with books=author.books.all %}
+        {% include "_book_list.html" %}
+    {% endwith %}
+{% endblock %}

@@ -1,10 +1,10 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
     <div>
         <p>Results for {{ subject }}<p>
         {% if subject == 'books' %}
-            {% include '_booklist.html' %}
+            {% include 'lists/_book_list.html' %}
         {% endif %}
 
 {#        etc#}

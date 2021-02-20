@@ -1,9 +1,12 @@
-{% extends "base.html" %}
+{% extends "_base.html" %}
 
 {% block content %}
-    {% include "_series_info.html" %}
+    <div class="series-info">
+        <h3>{{ series.name }}</h3>
+        <p>Books:</p>
+    </div>
 
     {% with books=series.books.all %}
-        {% include "_booklist.html" %}
+        {% include "lists/_book_list.html" %}
     {% endwith %}
 {% endblock %}

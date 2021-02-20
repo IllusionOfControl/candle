@@ -1,9 +1,0 @@
-{% block taglist %}
-    <div class="tag-list">
-    {% for tag in tags %}
-        <div class="tag" id="{{ tag.id}}">
-            <p><a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a> ({{ tag.books.count }})</p>
-        </div>
-    {% endfor %}
-    </div>
-{% endblock %}

@@ -1,4 +1,6 @@
-{% block publisher %}
+{% extends "_base.html" %}
+
+{% block content %}
     <div class="publisher-list">
     {% for publisher in publishers %}
         <div class="series" id="{{ publisher.id}}">
