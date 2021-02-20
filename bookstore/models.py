@@ -7,6 +7,9 @@ class Publisher(models.Model):
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
+
 
 class Series(models.Model):
     name = models.CharField(max_length=64)
@@ -21,15 +24,24 @@ class Shelf(models.Model):
     description = models.TextField()
     is_public = models.BooleanField()
 
+    def __str__(self):
+        return self.name
+
 
 class Author(models.Model):
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
 
 
 class Book(models.Model):
@@ -53,6 +65,9 @@ class Book(models.Model):
     def get_authors(self):
         return self.authors.all()
 
+    def __str__(self):
+        return self.title
+
 
 class Comments(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -71,9 +86,15 @@ class File(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='files')
     uploader = models.ForeignKey(User, on_delete=models.CASCADE, related_name='files')
 
+    def __str__(self):
+        return self.uuid
+
 
 class Identifier(models.Model):
     name = models.CharField(max_length=24)
     value = models.CharField(max_length=24)
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='identifiers')
+
+    def __str__(self):
+        return '{}: {}'.format(self.name, self.value)
