@@ -1,6 +1,6 @@
 {% block booklist %}
     <div class="book-list">
-    {% for book in object_list %}
+    {% for book in books %}
         <div class="book" id="{{ book.id}}">
             <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
             <p>Author:

@@ -4,20 +4,20 @@ from .views import *
 urlpatterns = [
     path('', BookListView.as_view(), name='index'),
     path('books/add/', BookAddView.as_view(), name='book-add'),
-    path('book/<int:book_id>/', book_page, name='book-detail'),
-    path('book/<int:book_id>/edit', book_edit, name='book-edit'),
+    path('book/<int:pk>/', BookDetailView.as_view(), name='book-detail'),
+    path('book/<int:pk>/edit', BookEditView.as_view(), name='book-edit'),
 
-    path('authors/', author_list, name='author-list'),
-    path('author/<int:author_id>/', author_page, name='author-detail'),
+    path('authors/', AuthorListView.as_view(), name='author-list'),
+    path('author/<int:pk>/', AuthorDetailView.as_view(), name='author-detail'),
 
-    path('tags/', tag_list, name='tag-list'),
-    path('tag/<int:tag_id>/', tag_page, name='tag-detail'),
+    path('tags/', TagListView.as_view(), name='tag-list'),
+    path('tag/<int:pk>/', TagDetailView.as_view(), name='tag-detail'),
 
-    path('series/', series_list, name='series-list'),
-    path('series/<int:series_id>/', series_page, name='series-detail'),
+    path('series/', SeriesListView.as_view(), name='series-list'),
+    path('series/<int:pk>/', SeriesDetailView.as_view(), name='series-detail'),
 
-    path('publishers/', publisher_list, name='publisher-list'),
-    path('publisher/<int:publisher_id>/', publisher_page, name='publisher-detail'),
+    path('publishers/', PublisherListView.as_view(), name='publisher-list'),
+    path('publisher/<int:pk>/', PublisherDetailView.as_view(), name='publisher-detail'),
 
     path('auth/login', auth_login, name='auth_login'),
     path('auth/logout', auth_logout, name='auth_logout'),

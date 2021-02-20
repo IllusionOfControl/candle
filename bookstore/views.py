@@ -6,7 +6,8 @@ from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.detail import DetailView
 from django.conf import settings
 from bookstore.models import *
 from bookstore.forms import BookForm
@@ -14,9 +15,10 @@ import mimetypes
 
 
 class BookListView(ListView):
-    template_name = 'index.html'
     model = Book
+    template_name = 'book_list.html'
     paginate_by = settings.ITEMS_PER_PAGE
+    context_object_name = 'books'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -24,20 +26,15 @@ class BookListView(ListView):
         return context
 
 
-def author_list(request):
-    payload = dict()
-    payload['authors'] = Author.objects.all()
-    payload['title'] = "Author list"
+class BookDetailView(DetailView):
+    model = Book
+    template_name = 'book_detail.html'
+    context_object_name = 'book'
 
-    return render(request, 'authors.html', payload)
-
-
-def author_page(request, author_id):
-    payload = dict()
-    payload['author'] = Author.objects.get(pk=author_id)
-    payload['title'] = payload['author'].name + " books"
-
-    return render(request, 'author_page.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = '{} - detail'.format(self.object.title)
+        return context
 
 
 class BookAddView(CreateView):
@@ -50,12 +47,39 @@ class BookAddView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-
         files = self.request.FILES.getlist('files')
-
         for f in files:
             ext = mimetypes.guess_extension(f.content_type)
             size = f.size
+            new_file = File(book=self.object,
+                            extension=ext,
+                            md5='1', size=size,
+                            uploader=self.request.user)
+            new_file.save()
+            default_storage.save(new_file.uuid, f)
+
+        return response
+
+
+class BookEditView(UpdateView):
+    template_name = 'book_add.html'
+    model = Book
+    form_class = BookForm
+
+    def get_success_url(self):
+        return reverse('book-detail', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        files = self.request.FILES.getlist('files')
+        for f in files:
+            ext = mimetypes.guess_extension(f.content_type)
+            size = f.size
+
+            old_file = File.objects.filter(book=self.object, extension=ext).first()
+            if old_file:
+                default_storage.delete(old_file.uuid)
+                old_file.delete()
 
             new_file = File(book=self.object,
                             extension=ext,
@@ -67,130 +91,96 @@ class BookAddView(CreateView):
         return response
 
 
-def book_add(request):
-    payload = dict()
-    payload['title'] = "Book add"
+class AuthorListView(ListView):
+    model = Author
+    template_name = 'authors.html'
+    context_object_name = 'authors'
 
-    form = BookForm(request.POST or None,
-                    request.FILES or None)
-    if request.method == "POST":
-        if form.is_valid():
-            book = form.save()
-
-            files = request.FILES.getlist('files')
-
-            for f in files:
-                ext = mimetypes.guess_extension(f.content_type)
-                size = f.size
-
-                old_file = File.objects.filter(book=book, extension=ext).first()
-                if old_file:
-                    default_storage.delete(old_file.uuid)
-                    old_file.delete()
-                new_file = File(book=book,
-                                extension=ext,
-                                md5='1', size=size,
-                                uploader=request.user)
-                new_file.save()
-                default_storage.save(new_file.uuid, f)
-
-            return redirect(reverse('book-detail', kwargs={'book_id': book.id}))
-        print('form is not valid')
-
-    payload['form'] = form
-    return render(request, 'book_add.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Author List"
+        return context
 
 
-def book_page(request, book_id):
-    payload = dict()
-    payload['book'] = Book.objects.get(pk=book_id)
-    payload['title'] = payload['book'].title + " books"
+class AuthorDetailView(DetailView):
+    model = Author
+    template_name = 'author_page.html'
+    context_object_name = 'author'
+    paginate_by = settings.ITEMS_PER_PAGE
 
-    return render(request, 'book_page.html', payload)
-
-
-def book_edit(request, book_id):
-    payload = dict()
-    book = Book.objects.get(pk=book_id)
-
-    form = BookForm(request.POST or None,
-                    request.FILES or None,
-                    instance=book)
-    if request.method == "POST":
-        if form.is_valid():
-            book = form.save()
-
-            files = request.FILES.getlist('files')
-
-            for f in files:
-                ext = mimetypes.guess_extension(f.content_type)
-                size = f.size
-
-                old_file = File.objects.filter(book=book, extension=ext).first()
-                if old_file:
-                    default_storage.delete(old_file.uuid)
-                    old_file.delete()
-                new_file = File(book=book,
-                                extension=ext,
-                                md5='1', size=size,
-                                uploader=request.user)
-                default_storage.save(new_file.uuid, f)
-                new_file.save()
-
-            return redirect(reverse('book-detail', kwargs={'book_id': book.id}))
-
-    payload['title'] = book.title + " edit"
-    payload['files'] = book.files.all()
-    payload['form'] = form
-    return render(request, 'book_add.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = '{} - detail'.format(self.object.name)
+        return context
 
 
-def tag_list(request):
-    payload = dict()
-    payload['tags'] = Tag.objects.all()
-    payload['title'] = "Tag list"
+class TagListView(ListView):
+    model = Tag
+    template_name = 'tag_list.html'
+    context_object_name = 'tags'
 
-    return render(request, 'tags.html', payload)
-
-
-def tag_page(request, tag_id):
-    payload = dict()
-    payload['tag'] = Tag.objects.get(pk=tag_id)
-    payload['title'] = payload['tag'].name + " books"
-
-    return render(request, 'tag_page.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Author List'
+        return context
 
 
-def series_list(request):
-    payload = dict()
-    payload['series'] = Series.objects.all()
-    payload['title'] = "Series list"
+class TagDetailView(DetailView):
+    model = Tag
+    template_name = 'tag_detail.html'
+    context_object_name = 'tag'
+    paginate_by = settings.ITEMS_PER_PAGE
 
-    return render(request, 'series.html', payload)
-
-
-def series_page(request, series_id):
-    payload = dict()
-    payload['series'] = Series.objects.get(pk=series_id)
-    payload['title'] = payload['series'].name + " books"
-
-    return render(request, 'series_page.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tag "{}" - detail'.format(self.object.name)
+        return context
 
 
-def publisher_list(request):
-    payload = dict()
-    payload['publishers'] = Publisher.objects.all()
-    payload['title'] = "Publisher list"
+class SeriesListView(ListView):
+    model = Series
+    template_name = 'series_list.html'
+    context_object_name = 'series'
 
-    return render(request, 'publishers.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Series List'
+        return context
 
 
-def publisher_page(request, publisher_id):
-    payload = dict()
-    payload['publisher'] = Publisher.objects.get(pk=publisher_id)
-    payload['title'] = payload['publisher'].name + " books"
+class SeriesDetailView(DetailView):
+    model = Author
+    template_name = 'series_page.html'
+    context_object_name = 'series'
+    paginate_by = settings.ITEMS_PER_PAGE
 
-    return render(request, 'publisher_page.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Book series "{}" - detail'.format(self.object.name)
+        return context
+
+
+class PublisherListView(ListView):
+    model = Publisher
+    template_name = 'publishers.html'
+    context_object_name = 'publishers'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Publisher List'
+        return context
+
+
+class PublisherDetailView(DetailView):
+    model = Publisher
+    template_name = 'publisher_page.html'
+    context_object_name = 'publisher'
+    paginate_by = settings.ITEMS_PER_PAGE
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Publisher "{}" - detail'.format(self.object.name)
+        return context
 
 
 def download_file(request, file_id):
