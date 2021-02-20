@@ -5,20 +5,23 @@ from django.utils.text import get_valid_filename
 from django.db.models import Q
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView
+from django.conf import settings
 from bookstore.models import *
 from bookstore.forms import BookForm
 import mimetypes
 
 
-def index(request):
-    page_num = request.GET.get('page', 1)
-    payload = dict()
-    payload['books'] = Book.objects.all()
-    paginator = Paginator(payload['books'], 30)
-    payload['books'] = paginator.get_page(page_num)
-    payload['title'] = "Book list"
+class BookListView(ListView):
+    template_name = 'index.html'
+    model = Book
+    paginate_by = settings.ITEMS_PER_PAGE
 
-    return render(request, 'index.html', payload)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Book list"
+        return context
 
 
 def author_list(request):
@@ -35,6 +38,33 @@ def author_page(request, author_id):
     payload['title'] = payload['author'].name + " books"
 
     return render(request, 'author_page.html', payload)
+
+
+class BookAddView(CreateView):
+    template_name = 'book_add.html'
+    model = Book
+    form_class = BookForm
+
+    def get_success_url(self):
+        return reverse('book_page', kwargs={'book_id': self.object.pk})
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+
+        files = self.request.FILES.getlist('files')
+
+        for f in files:
+            ext = mimetypes.guess_extension(f.content_type)
+            size = f.size
+
+            new_file = File(book=self.object,
+                            extension=ext,
+                            md5='1', size=size,
+                            uploader=self.request.user)
+            new_file.save()
+            default_storage.save(new_file.uuid, f)
+
+        return response
 
 
 def book_add(request):
