@@ -46,7 +46,7 @@ class BookAddView(CreateView):
     form_class = BookForm
 
     def get_success_url(self):
-        return reverse('book_page', kwargs={'book_id': self.object.pk})
+        return reverse('book-detail', kwargs={'book_id': self.object.pk})
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -94,7 +94,7 @@ def book_add(request):
                 new_file.save()
                 default_storage.save(new_file.uuid, f)
 
-            return redirect(reverse('book_page', kwargs={'book_id': book.id}))
+            return redirect(reverse('book-detail', kwargs={'book_id': book.id}))
         print('form is not valid')
 
     payload['form'] = form
@@ -137,7 +137,7 @@ def book_edit(request, book_id):
                 default_storage.save(new_file.uuid, f)
                 new_file.save()
 
-            return redirect(reverse('book_page', kwargs={'book_id': book.id}))
+            return redirect(reverse('book-detail', kwargs={'book_id': book.id}))
 
     payload['title'] = book.title + " edit"
     payload['files'] = book.files.all()
@@ -252,7 +252,7 @@ def file_delete(request, file_id):
     book_id = file.book.id
     default_storage.delete(file.uuid)
     file.delete()
-    return redirect(reverse('book_edit', kwargs={'book_id': book_id}))
+    return redirect(reverse('book-edit', kwargs={'book_id': book_id}))
 
 
 ###

@@ -2,15 +2,15 @@
     <div class="book-info">
         <h3>{{ book.title }}</h3>
         <p>Description: {{ book.description }}</p>
-        <a href="{% url 'book_edit' book.id %}">Edit book</a>
+        <a href="{% url 'book-edit' book.id %}">Edit book</a>
         <p>Tags:
             {% for tag in book.tags.all %}
-                <a href="{% url 'tag_page' tag.id %}">{{ tag.name }}</a>
+                <a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a>
             {% endfor %}
         </p>
         <p>Series:
             {% if book.series %}
-                <a href="{% url 'series_info' book.series.id %}">{{ book.series.name }}</a>
+                <a href="{% url 'series-detail' book.series.id %}">{{ book.series.name }}</a>
             {% endif %}
         </p>
         <p>Publisher:

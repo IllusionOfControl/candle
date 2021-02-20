@@ -2,7 +2,7 @@
     <div class="book-list">
     {% for book in object_list %}
         <div class="book" id="{{ book.id}}">
-            <a href="{% url 'book_page' book.id %}">{{ book.title }}</a>
+            <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
             <p>Author:
                 {% for author in book.authors.all %}
                     {{  author.name }}

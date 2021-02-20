@@ -2,7 +2,7 @@
     <div class="author-list">
     {% for author in authors %}
         <div class="author">
-            <p><a href="{% url 'author_page' author.id %}">{{ author.name }}</a> ({{ author.books.count }})</p>
+            <p><a href="{% url 'author-detail' author.id %}">{{ author.name }}</a> ({{ author.books.count }})</p>
             <p> Description: {{ author.description }}</p>
         </div>
     {% endfor %}
