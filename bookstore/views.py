@@ -4,7 +4,6 @@ from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
 from django.db.models import Q
 from django.contrib import messages
-from django.core.paginator import Paginator
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.detail import DetailView
@@ -150,7 +149,7 @@ class SeriesListView(ListView):
 
 class SeriesDetailView(DetailView):
     model = Author
-    template_name = 'series_page.html'
+    template_name = 'series_detail.html'
     context_object_name = 'series'
     paginate_by = settings.ITEMS_PER_PAGE
 

@@ -12,12 +12,12 @@
         </p>
         <p>Series:
             {% if book.series %}
-                <a href="{% url 'series-detail' book.series.id %}">{{ book.series.name }}</a>
+                <a href="{% url 'series-detail' book.series.id %}">{{ book.series.title }}</a>
             {% endif %}
         </p>
         <p>Publisher:
             {% if book.publisher %}
-{#                <a href="{% url '_info' book.series.id %}">{{ book.series.name }}</a>#}
+                <a href="{% url 'publisher-detail' book.publisher.id %}">{{ book.publisher.name }}</a>
             {% endif %}
         </p>
         <p>Files:</p>

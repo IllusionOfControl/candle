@@ -10,13 +10,22 @@ class Publisher(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Series(models.Model):
-    name = models.CharField(max_length=64)
+    title = models.CharField(max_length=64)
     description = models.TextField()
 
     class Meta:
         verbose_name_plural = 'Series'
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['title']
 
 
 class Shelf(models.Model):
@@ -36,12 +45,18 @@ class Author(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['name']
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=32)
 
     def __str__(self):
         return self.name
+
+    class Meta:
+        ordering = ['name']
 
 
 class Book(models.Model):
