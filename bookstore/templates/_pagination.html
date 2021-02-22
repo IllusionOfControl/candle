@@ -1,4 +1,5 @@
 {% block pagination %}
+    {% if is_paginated %}
     <div class="pagination">
     <span class="step-links">
         {% if page_obj.has_previous %}
@@ -17,5 +18,6 @@
             <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
         {% endif %}
     </span>
-</div>
+    </div>
+    {% endif %}
 {% endblock %}

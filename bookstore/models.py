@@ -62,6 +62,9 @@ class Book(models.Model):
     tags = models.ManyToManyField(Tag, related_name='books', blank=True)
     shelves = models.ManyToManyField(Shelf, related_name='books')
 
+    class Meta:
+        ordering = ['-pk']
+
     def get_authors(self):
         return self.authors.all()
 

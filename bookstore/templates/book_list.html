@@ -3,7 +3,5 @@
 {% block content %}
     {% include "_book_list.html" %}
 
-    {% with page_obj=books %}
-        {% include "_pagination.html" %}
-    {% endwith %}
+    {% include "_pagination.html" %}
 {% endblock %}
