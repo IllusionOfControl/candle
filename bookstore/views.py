@@ -53,10 +53,10 @@ class BookAddView(CreateView):
             size = f.size
             new_file = File(book=self.object,
                             extension=ext,
-                            md5='1', size=size,
+                            size=size,
                             uploader=self.request.user)
             new_file.save()
-            default_storage.save(new_file.uuid, f)
+            default_storage.save(new_file.uuid.hex, f)
 
         return response
 
@@ -83,15 +83,15 @@ class BookEditView(UpdateView):
 
             old_file = File.objects.filter(book=self.object, extension=ext).first()
             if old_file:
-                default_storage.delete(old_file.uuid)
+                default_storage.delete(old_file.uuid.hex)
                 old_file.delete()
 
             new_file = File(book=self.object,
                             extension=ext,
-                            md5='1', size=size,
+                            size=size,
                             uploader=self.request.user)
             new_file.save()
-            default_storage.save(new_file.uuid, f)
+            default_storage.save(new_file.uuid.hex, f)
 
         return response
 
