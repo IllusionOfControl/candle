@@ -207,6 +207,18 @@ class FileDownloadView(DetailView):
         return response
 
 
+class FileDeleteView(DetailView):
+    model = File
+
+    def get(self, request, pk):
+        file = self.get_object()
+        book_id = file.book.id
+        default_storage.delete(file.uuid.hex)
+        file.delete()
+        redirect_uri = self.request.META.get('HTTP_REFERER', None) or reverse('book-edit', kwargs={'pk': book_id})
+        return redirect(redirect_uri)
+
+
 def search(request):
     query = request.GET.get('query', '')
     if len(query) < 3:
@@ -248,11 +260,4 @@ def search_subject(request, subject):
     return render(request, 'search_by_subject.html', payload)
 
 
-def file_delete(request, file_id):
-    file = File.objects.get(id=file_id)
-    if not file:
-        return Http404
-    book_id = file.book.id
-    default_storage.delete(file.uuid)
-    file.delete()
-    return redirect(reverse('book-edit', kwargs={'book_id': book_id}))
+

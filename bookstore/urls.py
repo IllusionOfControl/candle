@@ -1,6 +1,5 @@
 from django.urls import path
 from .views import *
-
 urlpatterns = [
     path('', BookListView.as_view(), name='index'),
     path('books/add/', BookAddView.as_view(), name='book-add'),
@@ -21,7 +20,8 @@ urlpatterns = [
 
     path('files/upload', FileUploadView.as_view(), name='file-upload'),
     path('file/<int:pk>', FileDownloadView.as_view(), name='file-download'),
-    path('file/<int:file_id>/delete', file_delete, name='file_delete'),
+    path('file/<int:pk>/delete', FileDeleteView.as_view(), name='file-delete'),
     path('search/', search, name='search'),
     path('search/<str:subject>', search_subject, name='search_by_subject'),
 ]
+
