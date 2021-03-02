@@ -17,12 +17,8 @@ class BookListView(ListView):
     model = Book
     template_name = 'book_list.html'
     paginate_by = settings.ITEMS_PER_PAGE
+    extra_context = {'title': 'Book list'}
     context_object_name = 'books'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Book list"
-        return context
 
 
 class BookDetailView(DetailView):
@@ -43,6 +39,11 @@ class BookAddView(CreateView):
 
     def get_success_url(self):
         return reverse('book-detail', kwargs={'book_id': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = '{} - add'.format(self.object.title)
+        return context
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -67,6 +68,11 @@ class BookEditView(UpdateView):
 
     def get_success_url(self):
         return reverse('book-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = '{} - edit'.format(self.object.title)
+        return context
 
     def form_valid(self, form):
         response = super().form_valid(form)
@@ -94,11 +100,7 @@ class AuthorListView(ListView):
     model = Author
     template_name = 'author_list.html'
     context_object_name = 'authors'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = "Author List"
-        return context
+    extra_context = {'title': 'Author List'}
 
 
 class AuthorDetailView(DetailView):
@@ -117,11 +119,7 @@ class TagListView(ListView):
     model = Tag
     template_name = 'tag_list.html'
     context_object_name = 'tags'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Author List'
-        return context
+    extra_context = {'title': 'Tag List'}
 
 
 class TagDetailView(DetailView):
@@ -132,7 +130,7 @@ class TagDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Tag "{}" - detail'.format(self.object.name)
+        context['title'] = 'Tag {} - detail'.format(self.object.name)
         return context
 
 
@@ -140,11 +138,7 @@ class SeriesListView(ListView):
     model = Series
     template_name = 'series_list.html'
     context_object_name = 'series'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Series List'
-        return context
+    extra_context = {'title': 'Series list'}
 
 
 class SeriesDetailView(DetailView):
@@ -163,11 +157,7 @@ class PublisherListView(ListView):
     model = Publisher
     template_name = 'publisher_list.html'
     context_object_name = 'publishers'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Publisher List'
-        return context
+    extra_context = {'title': 'Publisher list'}
 
 
 class PublisherDetailView(DetailView):
