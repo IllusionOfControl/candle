@@ -23,7 +23,7 @@
         <p>Files:</p>
         <div>
             {% for file in book.files.all %}
-                <p>Download <a href="{% url 'download_file' file.id %}"> {{ file.extension }} </a></p>
+                <p>Download <a href="{% url 'file-download' file.id %}"> {{ file.extension }} </a></p>
             {% endfor %}
         </div>
     </div>

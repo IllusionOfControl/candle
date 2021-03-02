@@ -182,17 +182,6 @@ class PublisherDetailView(DetailView):
         return context
 
 
-def download_file(request, file_id):
-    file = File.objects.get(id=file_id)
-    if file:
-        response = HttpResponse(default_storage.open(file.uuid).read(),
-                                content_type=mimetypes.guess_type(file.extension))
-        filename = get_valid_filename(file.book.title + file.extension)
-        response['Content-Disposition'] = 'attachment; filename=' + filename
-        return response
-    return Http404
-
-
 class FileUploadView(FormView):
     form_class = FileUploadForm
 
@@ -214,6 +203,18 @@ class FileUploadView(FormView):
     def form_invalid(self, form):
         from_uri = self.request.META['HTTP_REFERER']
         return redirect(from_uri)
+
+
+class FileDownloadView(DetailView):
+    model = File
+
+    def get(self, request, pk):
+        file = self.get_object()
+        response = HttpResponse(default_storage.open(file.uuid.hex).read(),
+                                content_type=mimetypes.guess_type(file.extension))
+        filename = get_valid_filename(file.book.title + file.extension)
+        response['Content-Disposition'] = 'attachment; filename=' + filename
+        return response
 
 
 def search(request):
