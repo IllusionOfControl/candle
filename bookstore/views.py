@@ -5,11 +5,11 @@ from django.utils.text import get_valid_filename
 from django.db.models import Q
 from django.contrib import messages
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.detail import DetailView
 from django.conf import settings
 from bookstore.models import *
-from bookstore.forms import BookForm
+from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
 
 
@@ -191,6 +191,29 @@ def download_file(request, file_id):
         response['Content-Disposition'] = 'attachment; filename=' + filename
         return response
     return Http404
+
+
+class FileUploadView(FormView):
+    form_class = FileUploadForm
+
+    def form_valid(self, form):
+        files = self.request.FILES.getlist('files')
+        book = Book()
+        book.save()
+        for file in files:
+            ext = mimetypes.guess_extension(file.content_type)
+            size = file.size
+            f = File(book=book,
+                     extension=ext,
+                     size=size,
+                     uploader=self.request.user)
+            f.save()
+            default_storage.save(f.uuid.hex, file)
+        return redirect(reverse('book-edit', kwargs={'pk': book.pk}))
+
+    def form_invalid(self, form):
+        from_uri = self.request.META['HTTP_REFERER']
+        return redirect(from_uri)
 
 
 def search(request):

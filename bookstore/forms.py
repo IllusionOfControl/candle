@@ -10,3 +10,7 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'description', 'rating', 'tags', 'series']
+
+
+class FileUploadForm(forms.Form):
+    files = forms.FileField(label='Book file', widget=forms.ClearableFileInput(attrs={'multiple': True}))

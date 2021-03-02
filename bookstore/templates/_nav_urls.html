@@ -14,7 +14,11 @@
                 <li style="list-style: none"><a href="{% url 'admin:index' %}">Admin panel</a></li>
             {% endif %}
             <hr>
-                <li style="list-style: none"><a href="{% url 'book-add' %}">Book add</a></li>
+                <li style="list-style: none">
+                    {% csrf_token %}
+                    <input name="files" id="upload" type="file" multiple/>
+                    <button id="file-upload">Upload Book</button>
+                </li>
             <hr>
         {% else %}
             <li style="list-style: none"><a href="{% url 'auth:login' %}">Login</a></li>

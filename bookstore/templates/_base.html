@@ -14,10 +14,11 @@
             border-width: 1px;
             border-style: solid;
             border-color: black;
-            padding-left: 15px;
-            padding-right: 15px;
-            padding-bottom: 15px;
-            padding-top: 15px;
+            padding: 15px;
+        }
+
+        #upload {
+            display: none;
         }
     </style>
 </head>
@@ -46,4 +47,36 @@
         </tr>
     </table>
 </body>
+
+<script>
+    function open_file_dialog(event) {
+        event.preventDefault();
+        document.getElementById('upload').click()
+    }
+
+    function choose_file(event) {
+        let files = event.target.files;
+        let csrf_token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+        let xhr = new XMLHttpRequest();
+        let formData = new FormData();
+
+        xhr.open("POST", "{% url 'file-upload' %}", true);
+        formData.set('csrfmiddlewaretoken', csrf_token)
+        for(let file in files) {
+            formData.append('files', files[file]);
+        }
+        xhr.onload = function () {
+          window.location.href = xhr.responseURL;
+        };
+        xhr.send(formData);
+    }
+
+    document.getElementById('file-upload').addEventListener(
+        'click', open_file_dialog, false
+    );
+    document.getElementById('upload').addEventListener(
+        'change', choose_file, false
+    );
+</script>
+
 </html>

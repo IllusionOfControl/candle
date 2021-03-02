@@ -19,6 +19,7 @@ urlpatterns = [
     path('publishers/', PublisherListView.as_view(), name='publisher-list'),
     path('publisher/<int:pk>/', PublisherDetailView.as_view(), name='publisher-detail'),
 
+    path('files/upload', FileUploadView.as_view(), name='file-upload'),
     path('file/<int:file_id>', download_file, name='download_file'),
     path('file/<int:file_id>/delete', file_delete, name='file_delete'),
     path('search/', search, name='search'),

@@ -60,7 +60,7 @@ class Tag(models.Model):
 
 
 class Book(models.Model):
-    title = models.CharField(max_length=128)
+    title = models.CharField(max_length=128, default='Untitled book')
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField(null=True)
     last_modified = models.DateTimeField(auto_now=True)
@@ -96,9 +96,9 @@ class Comments(models.Model):
 
 
 class File(models.Model):
-    uuid = models.CharField(max_length=36, default=uuid.uuid4().hex)
+    uuid = models.UUIDField(default=uuid.uuid4)
     extension = models.CharField(max_length=8)
-    md5 = models.CharField(max_length=32)
+    # md5 = models.CharField(max_length=32)
     size = models.IntegerField()
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='files')
