@@ -198,7 +198,7 @@ class FileUploadView(FormView):
 class FileDownloadView(DetailView):
     model = File
 
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
         file = self.get_object()
         response = HttpResponse(default_storage.open(file.uuid.hex).read(),
                                 content_type=mimetypes.guess_type(file.extension))
@@ -210,7 +210,7 @@ class FileDownloadView(DetailView):
 class FileDeleteView(DetailView):
     model = File
 
-    def get(self, request, pk):
+    def get(self, request, *args, **kwargs):
         file = self.get_object()
         book_id = file.book.id
         default_storage.delete(file.uuid.hex)
@@ -258,6 +258,3 @@ def search_subject(request, subject):
     payload[subject] = objects
     payload['title'] = "Result search by " + query
     return render(request, 'search_by_subject.html', payload)
-
-
-
