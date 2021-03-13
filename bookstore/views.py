@@ -187,7 +187,7 @@ class FileUploadView(FormView):
                      size=size,
                      uploader=self.request.user)
             f.save()
-            default_storage.save(f.uuid.hex, file)
+            default_storage.save("books/" + f.uuid.hex, file)
         return redirect(reverse('book-edit', kwargs={'pk': book.pk}))
 
     def form_invalid(self, form):
@@ -200,7 +200,7 @@ class FileDownloadView(DetailView):
 
     def get(self, request, *args, **kwargs):
         file = self.get_object()
-        response = HttpResponse(default_storage.open(file.uuid.hex).read(),
+        response = HttpResponse(default_storage.open("books/" + file.uuid.hex).read(),
                                 content_type=mimetypes.guess_type(file.extension))
         filename = get_valid_filename(file.book.title + file.extension)
         response['Content-Disposition'] = 'attachment; filename=' + filename
