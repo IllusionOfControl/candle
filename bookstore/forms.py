@@ -4,6 +4,9 @@ from .models import Book
 
 class BookForm(forms.ModelForm):
 
+    cover = forms.FileField(label='Cover',
+                            required=False)
+
     # TODO: Add a custom file field to restrict identical MIMETYPE
     files = forms.FileField(label='Book file',
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),

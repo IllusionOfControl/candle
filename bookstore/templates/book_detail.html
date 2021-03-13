@@ -3,6 +3,9 @@
 {% block content %}
     <div class="book-info">
         <h3>{{ book.title }}</h3>
+        {% if book.has_cover %}
+        <img src="{% url 'book-cover' book.id %}" width="150">
+        {% endif %}
         <p>Description: {{ book.description }}</p>
         <a href="{% url 'book-edit' book.pk %}">Edit book</a>
         <p>Tags:
@@ -26,5 +29,6 @@
                 <p>Download <a href="{% url 'file-download' file.id %}"> {{ file.extension }} </a></p>
             {% endfor %}
         </div>
+    {{ book.uuid.hex }}
     </div>
 {% endblock %}

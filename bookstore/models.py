@@ -64,7 +64,7 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField(null=True)
     last_modified = models.DateTimeField(auto_now=True)
-    uuid = models.UUIDField(default=uuid.uuid4)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     has_cover = models.BooleanField(default=False)
     rating = models.IntegerField(default=0)
     description = models.TextField()

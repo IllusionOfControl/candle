@@ -77,6 +77,11 @@ class BookEditView(UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         files = self.request.FILES.getlist('files')
+        cover = self.request.FILES.get('cover', None)
+        if cover:
+            self.object.has_cover = True
+            self.object.save()
+            default_storage.save("covers/" + self.object.uuid.hex, cover)
         for f in files:
             ext = mimetypes.guess_extension(f.content_type)
             size = f.size
@@ -217,6 +222,17 @@ class FileDeleteView(DetailView):
         file.delete()
         redirect_uri = self.request.META.get('HTTP_REFERER', None) or reverse('book-edit', kwargs={'pk': book_id})
         return redirect(redirect_uri)
+
+
+class BookCoverView(DetailView):
+    model = Book
+
+    def get(self, request, *args, **kwargs):
+        book = self.get_object()
+        response = HttpResponse(default_storage.open('covers/' + book.uuid.hex).read(),
+                                content_type='image/jpeg')
+        response['Content-Disposition'] = 'attachment'
+        return response
 
 
 def search(request):

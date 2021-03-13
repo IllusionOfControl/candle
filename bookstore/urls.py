@@ -21,6 +21,9 @@ urlpatterns = [
     path('files/upload', FileUploadView.as_view(), name='file-upload'),
     path('file/<int:pk>', FileDownloadView.as_view(), name='file-download'),
     path('file/<int:pk>/delete', FileDeleteView.as_view(), name='file-delete'),
+
+    path('cover/<int:pk>/', BookCoverView.as_view(), name='book-cover'),
+
     path('search/', search, name='search'),
     path('search/<str:subject>', search_subject, name='search_by_subject'),
 ]
