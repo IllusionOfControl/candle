@@ -1,7 +1,22 @@
 {% extends "_base.html" %}
+{% load filters %}
 
 {% block content %}
-    {% include "_book_list.html" %}
+    <div class="book-list">
+    {% for book in books %}
+        <div class="book" id="{{ book.id}}">
+            <a href="{% url 'book-detail' book.id %}">{{ book.title|highlight_search:query }}</a>
+            <p>Author:
+                {% for author in book.authors.all %}
+                    {{  author.name }}
+                {% endfor %}
+            </p>
+            <p>Pub date: {{ book.publicated_at }}</p>
+            <p>Rating: {{ book.rating  }}</p>
+        <hr>
+        </div>
+    {% endfor %}
+    </div>
 
     {% include "_pagination.html" %}
 {% endblock %}
