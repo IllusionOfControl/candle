@@ -24,7 +24,7 @@ urlpatterns = [
 
     path('cover/<int:pk>/', BookCoverView.as_view(), name='book-cover'),
 
-    path('search/', search, name='search'),
+    path('search/', SearchView.as_view(), name='search'),
     path('search/<str:subject>', search_subject, name='search_by_subject'),
 ]
 

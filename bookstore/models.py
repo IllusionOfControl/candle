@@ -1,6 +1,9 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth.models import User
-import uuid
+
+from .managers import BookManager
 
 
 class Publisher(models.Model):
@@ -60,6 +63,8 @@ class Tag(models.Model):
 
 
 class Book(models.Model):
+    objects = BookManager()
+
     title = models.CharField(max_length=128, default='Untitled book')
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateField(null=True)

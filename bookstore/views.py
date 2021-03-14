@@ -4,6 +4,7 @@ from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
 from django.db.models import Q
 from django.contrib import messages
+from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.detail import DetailView
@@ -235,17 +236,40 @@ class BookCoverView(DetailView):
         return response
 
 
+class SearchView(ListView):
+    template_name = 'search_page.html'
+    model = Book
+    context_object_name = 'books'
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Search by "{}"'.format(self.request.GET.get('query'))
+        return context
+
+    def get(self, request, *args, **kwargs):
+        query = self.request.GET.get('query', '')
+        if len(query) < 3:
+            messages.info(self.request, 'Query must have min 3 character!')
+            redirect_uri = self.request.META.get('HTTP_REFERER', None)
+            return redirect(redirect_uri)
+
+        self.queryset = self.model.objects.search(query)
+        return super().get(self.request)
+
+
 def search(request):
     query = request.GET.get('query', '')
     if len(query) < 3:
         messages.info(request, 'Query must have min 3 character!')
         return redirect(request.META.get('HTTP_REFERER'))
+
     payload = dict()
     payload['query'] = query
     payload['books'] = Book.objects.filter(Q(title__contains=query, description__contains=query))[:5]
     payload['authors'] = Author.objects.filter(Q(name__contains=query))[:5]
     payload['publishers'] = Publisher.objects.filter(Q(name__contains=query))[:5]
-    payload['series'] = Series.objects.filter(Q(name__contains=query))[:5]
+    payload['series'] = Series.objects.filter(Q(title__contains=query))[:5]
     payload['tags'] = Tag.objects.filter(Q(name__contains=query))[:5]
 
     payload['title'] = "Result search by " + query
