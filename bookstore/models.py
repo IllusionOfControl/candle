@@ -1,9 +1,19 @@
+from django.contrib.auth.models import User
+from django.db import models
+from django.db.models import Q
 import uuid
 
-from django.db import models
-from django.contrib.auth.models import User
 
-from .managers import BookManager
+class BookManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(title__contains=query) | Q(description__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
 
 
 class Publisher(models.Model):
