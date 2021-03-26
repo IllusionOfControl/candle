@@ -201,16 +201,12 @@ class SearchViewTest(TestCase):
     ]
     valid_queries = [
         ('query', reverse('book-search') + "?query=query"),
+        ('  query', reverse('book-search') + "?query=query"),
         ('book:query', reverse('book-search') + "?query=query"),
+        ('book:   query', reverse('book-search') + "?query=query"),
         # ('author: query', reverse('author-search') + "?query=query"),
     ]
     path_url = '/search?query={}'
-
-    @classmethod
-    def setUpTestData(cls):
-        mixer = Mixer(commit=False)
-        objects = mixer.cycle(30).blend(cls.model)
-        cls.model.objects.bulk_create(objects)
 
     def test_invalid_query(self):
         for query in self.invalid_queries:

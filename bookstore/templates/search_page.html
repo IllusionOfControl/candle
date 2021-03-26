@@ -5,7 +5,7 @@
     <div class="book-list">
     {% for book in books %}
         <div class="book" id="{{ book.id}}">
-            <a href="{% url 'book-detail' book.id %}">{{ book.title|highlight_search:query }}</a>
+            <a href="{% url 'book-detail' book.id %}">{{ book.title|highlight_search:query_string }}</a>
             <p>Author:
                 {% for author in book.authors.all %}
                     {{  author.name }}

@@ -243,7 +243,10 @@ class SearchView(View):
 
         if query:
             query_subject = query.group(1)
-            query_string = re.match(r'\s*(.*)', query.group(2)).group(1)
+            query_string = query.group(2)
+
+        query_string = re.match(r'\s*(.*)', query_string).group(1)
+
         if len(query_string) < 3:
             messages.warning(self.request, 'Query must have min 3 character!')
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
@@ -268,21 +271,23 @@ class BookSearchView(ListView):
     context_object_name = 'books'
     paginate_by = 30
 
+    def get_query_string(self):
+        query_string = self.request.GET.get('query', '')
+        if len(query_string) < 3:
+            messages.warning(self.request, 'Query must have min 3 character!')
+            redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
+            return redirect(redirect_uri)
+        return query_string
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        query = self.request.GET.get('query')
-        context['title'] = 'Search by "{}"'.format(query)
-        context['query'] = query
+        context['title'] = 'Search by "{}"'.format(self.get_query_string())
+        context['query_string'] = self.get_query_string()
         return context
 
     def get(self, request, *args, **kwargs):
-        query = self.request.GET.get('query', '')
-        if len(query) < 3:
-            messages.info(self.request, 'Query must have min 3 character!')
-            redirect_uri = self.request.META.get('HTTP_REFERER', None)
-            return redirect(redirect_uri)
-
-        self.queryset = self.model.objects.search(query)
+        query_string = self.get_query_string()
+        self.queryset = self.model.objects.search(query_string)
         return super().get(self.request)
 
 
