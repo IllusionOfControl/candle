@@ -256,7 +256,7 @@ class SearchView(View):
             if query_subject == 'book:':
                 return redirect(reverse('book-search') + "?query=" + query_string)   # to Book search
             elif query_subject == 'author:':
-                pass    # to Author search
+                return redirect(reverse('author-search') + "?query=" + query_string)
             else:
                 messages.warning(self.request, 'Wrong search operator!')
                 redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
@@ -265,18 +265,12 @@ class SearchView(View):
         return redirect(reverse('book-search') + "?query=" + query_string)
 
 
-class BookSearchView(ListView):
+class SubjectSearchView(ListView):
     template_name = 'search_page.html'
-    model = Book
-    context_object_name = 'books'
-    paginate_by = 30
+    paginate_by = 20
 
     def get_query_string(self):
         query_string = self.request.GET.get('query', '')
-        if len(query_string) < 3:
-            messages.warning(self.request, 'Query must have min 3 character!')
-            redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
-            return redirect(redirect_uri)
         return query_string
 
     def get_context_data(self, **kwargs):
@@ -287,8 +281,23 @@ class BookSearchView(ListView):
 
     def get(self, request, *args, **kwargs):
         query_string = self.get_query_string()
+        if len(query_string) < 3:
+            messages.warning(self.request, 'Query must have min 3 character!')
+            redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
+            return redirect(redirect_uri)
         self.queryset = self.model.objects.search(query_string)
-        return super().get(self.request)
+        return super().get(self.request, args, kwargs)
+
+
+class BookSearchView(SubjectSearchView):
+    model = Book
+    context_object_name = 'books'
+
+
+class AuthorSearchView(SubjectSearchView):
+    model = Author
+    context_object_name = 'authors'
+
 
 
 def search(request):

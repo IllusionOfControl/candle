@@ -16,6 +16,18 @@ class BookManager(models.Manager):
         return queryset
 
 
+class AuthorManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(name__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
+
+
 class Publisher(models.Model):
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
@@ -51,6 +63,7 @@ class Shelf(models.Model):
 
 
 class Author(models.Model):
+    objects = AuthorManager()
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
     description = models.TextField()

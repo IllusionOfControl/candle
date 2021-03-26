@@ -10,8 +10,6 @@ class ListViewTestMixin:
     numbers_of_objects = 30
     object_per_page = 20
     is_paginated = True
-    path_name = None
-    path_url = None
     template_path = None
 
     @classmethod
@@ -204,13 +202,29 @@ class SearchViewTest(TestCase):
         ('  query', reverse('book-search') + "?query=query"),
         ('book:query', reverse('book-search') + "?query=query"),
         ('book:   query', reverse('book-search') + "?query=query"),
-        # ('author: query', reverse('author-search') + "?query=query"),
+        ('author:query', reverse('author-search') + "?query=query"),
+        ('author:   query', reverse('author-search') + "?query=query"),
     ]
-    path_url = '/search?query={}'
+    default_status = 302
+    path_url = '/search'
+    path_name = 'search'
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+
+    def test_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse(self.path_name))
+        self.assertEqual(resp.status_code, 302)
+
+    def test_view_url_matching_with_name(self):
+        url = reverse(self.path_name)
+        self.assertEqual(url, self.path_url)
 
     def test_invalid_query(self):
         for query in self.invalid_queries:
-            resp = self.client.get(self.path_url.format(query[0]))
+            resp = self.client.get(self.path_url + '?query={}'.format(query[0]))
+            self.assertEqual(resp.status_code, self.default_status)
             self.assertWarnsMessage(resp, query[1])
             self.assertRedirects(resp, reverse('index'))
 
@@ -218,7 +232,83 @@ class SearchViewTest(TestCase):
         import urllib.parse as urlparse
 
         for query in self.valid_queries:
-            resp = self.client.get(self.path_url.format(query[0]))
+            resp = self.client.get(self.path_url + '?query={}'.format(query[0]))
+            self.assertEqual(resp.status_code, self.default_status)
+
             search_arg = (urlparse.parse_qs(urlparse.urlparse(resp.url).query)['query'])[0]
             self.assertEqual(search_arg, 'query')
             self.assertRedirects(resp, query[1])
+
+
+class SubjectSearchViewTestMixin:
+    model = None
+    path_url = None
+    path_name = None
+    context_object_name = 'object'
+    invalid_query = 'qq'
+    valid_query = 'query'
+    search_attribute = None
+    numbers_of_objects = 50
+
+    @classmethod
+    def setUpTestData(cls):
+        mixer = Mixer(commit=False)
+        objects = []
+        for i in range(cls.numbers_of_objects):
+            object = mixer.blend(cls.model)
+            object.__setattr__(cls.search_attribute, cls.valid_query + str(i))
+            objects.append(object)
+        cls.model.objects.bulk_create(objects)
+
+    def test_view_url_exists_at_desired_location(self):
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+
+    def test_view_url_accessible_by_name(self):
+        resp = self.client.get(reverse(self.path_name))
+        self.assertEqual(resp.status_code, 302)
+
+    def test_view_url_matching_with_name(self):
+        url = reverse(self.path_name)
+        self.assertEqual(url, self.path_url)
+
+    def test_invalid_query(self):
+        resp = self.client.get(self.path_url + '?query=' + self.invalid_query)
+        self.assertWarnsMessage(resp, 'Query must have min 3 character!')
+        self.assertRedirects(resp, reverse('index'))
+
+    def test_valid_query(self):
+        resp = self.client.get(self.path_url + '?query=' + self.valid_query)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_valid_multiple_result_search(self):
+        resp = self.client.get(self.path_url + '?query=' + self.valid_query)
+        self.assertEquals(len(resp.context[self.context_object_name]), 20)
+
+    def test_valid_multiple_result_pagination(self):
+        resp = self.client.get(self.path_url + '?query=' + self.valid_query)
+        self.assertEquals(resp.context['page_obj'].paginator.num_pages, 3)
+
+    def test_valid_single_result_search(self):
+        resp = self.client.get(self.path_url + '?query=query49')
+        self.assertEquals(len(resp.context[self.context_object_name]), 1)
+
+
+class BookSearchViewTest(SubjectSearchViewTestMixin, TestCase):
+    model = Book
+    invalid_query = 'qq'
+    valid_query = 'query'
+    path_url = '/books/search'
+    path_name = 'book-search'
+    search_attribute = 'title'
+    context_object_name = 'books'
+
+
+class AuthorSearchViewTest(SubjectSearchViewTestMixin, TestCase):
+    model = Author
+    invalid_query = 'qq'
+    valid_query = 'query'
+    path_url = '/authors/search'
+    path_name = 'author-search'
+    search_attribute = 'name'
+    context_object_name = 'authors'
