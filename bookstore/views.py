@@ -234,7 +234,35 @@ class BookCoverView(DetailView):
         return response
 
 
-class SearchView(ListView):
+class SearchView(View):
+    def get(self, request, *args, **kwargs):
+        import re
+        query_string = self.request.GET.get('query', '')
+        query_subject = None
+        query = re.match(r'(^\w*:)(.*)', query_string)
+
+        if query:
+            query_subject = query.group(1)
+            query_string = re.match(r'\s*(.*)', query.group(2)).group(1)
+        if len(query_string) < 3:
+            messages.warning(self.request, 'Query must have min 3 character!')
+            redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
+            return redirect(redirect_uri)
+
+        if query_subject:
+            if query_subject == 'book:':
+                return redirect(reverse('book-search') + "?query=" + query_string)   # to Book search
+            elif query_subject == 'author:':
+                pass    # to Author search
+            else:
+                messages.warning(self.request, 'Wrong search operator!')
+                redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
+                return redirect(redirect_uri)
+
+        return redirect(reverse('book-search') + "?query=" + query_string)
+
+
+class BookSearchView(ListView):
     template_name = 'search_page.html'
     model = Book
     context_object_name = 'books'

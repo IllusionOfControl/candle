@@ -5,7 +5,6 @@ from mixer.backend.django import Mixer
 
 
 class ListViewTestMixin:
-    __unittest_skip__ = False
     model = None
     context_object_name = None
     numbers_of_objects = 30
@@ -193,3 +192,37 @@ class PublisherDetailTest(DetailViewTestMixin, TestCase):
     path_name = 'publisher-detail'
     template_path = 'publisher_detail.html'
     context_object_name = 'publisher'
+
+
+class SearchViewTest(TestCase):
+    invalid_queries = [
+        ('qq', 'Query must have min 3 character!'),
+        (':books', 'Wrong search operator!'),
+    ]
+    valid_queries = [
+        ('query', reverse('book-search') + "?query=query"),
+        ('book:query', reverse('book-search') + "?query=query"),
+        # ('author: query', reverse('author-search') + "?query=query"),
+    ]
+    path_url = '/search?query={}'
+
+    @classmethod
+    def setUpTestData(cls):
+        mixer = Mixer(commit=False)
+        objects = mixer.cycle(30).blend(cls.model)
+        cls.model.objects.bulk_create(objects)
+
+    def test_invalid_query(self):
+        for query in self.invalid_queries:
+            resp = self.client.get(self.path_url.format(query[0]))
+            self.assertWarnsMessage(resp, query[1])
+            self.assertRedirects(resp, reverse('index'))
+
+    def test_valid_query(self):
+        import urllib.parse as urlparse
+
+        for query in self.valid_queries:
+            resp = self.client.get(self.path_url.format(query[0]))
+            search_arg = (urlparse.parse_qs(urlparse.urlparse(resp.url).query)['query'])[0]
+            self.assertEqual(search_arg, 'query')
+            self.assertRedirects(resp, query[1])
