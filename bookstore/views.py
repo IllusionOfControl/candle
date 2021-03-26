@@ -2,9 +2,8 @@ from django.shortcuts import render, redirect, reverse
 from django.http import Http404, HttpResponse
 from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
-from django.db.models import Q
 from django.contrib import messages
-from django.views.generic.base import TemplateView
+from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
 from django.views.generic.detail import DetailView
@@ -113,7 +112,6 @@ class AuthorDetailView(DetailView):
     model = Author
     template_name = 'author_detail.html'
     context_object_name = 'author'
-    paginate_by = settings.ITEMS_PER_PAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -148,14 +146,14 @@ class SeriesListView(ListView):
 
 
 class SeriesDetailView(DetailView):
-    model = Author
+    model = Series
     template_name = 'series_detail.html'
     context_object_name = 'series'
-    paginate_by = settings.ITEMS_PER_PAGE
+    # paginate_by = settings.ITEMS_PER_PAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Book series "{}" - detail'.format(self.object.name)
+        context['title'] = 'Book series "{}" - detail'.format(self.object.title)
         return context
 
 
