@@ -1,8 +1,14 @@
+{% load filters %}
+
 {% block book_list %}
     <div class="book-list">
     {% for book in books %}
         <div class="book" id="{{ book.id}}">
+        {% if query_string %}
+            <a href="{% url 'book-detail' book.id %}">{{ book.title | highlight_search:query_string }}</a>
+        {% else %}
             <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
+        {% endif %}
             <p>Author:
                 {% for author in book.authors.all %}
                     {{  author.name }}

@@ -10,7 +10,7 @@ class BookManager(models.Manager):
     def search(self, query=None):
         queryset = self.get_queryset()
         if query:
-            or_lookup = (Q(title__contains=query) | Q(description__contains=query))
+            or_lookup = (Q(title__contains=query))
             queryset = queryset.filter(or_lookup)
 
         return queryset
@@ -28,7 +28,57 @@ class AuthorManager(models.Manager):
         return queryset
 
 
+class AuthorManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(name__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
+
+
+class TagManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(name__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
+
+
+class SeriesManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(title__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
+
+
+class PublisherManager(models.Manager):
+    use_for_related_fields = True
+
+    def search(self, query=None):
+        queryset = self.get_queryset()
+        if query:
+            or_lookup = (Q(name__contains=query))
+            queryset = queryset.filter(or_lookup)
+
+        return queryset
+
+
 class Publisher(models.Model):
+    objects = PublisherManager()
+
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
 
@@ -40,6 +90,8 @@ class Publisher(models.Model):
 
 
 class Series(models.Model):
+    objects = SeriesManager()
+
     title = models.CharField(max_length=64)
     description = models.TextField()
 
@@ -64,6 +116,7 @@ class Shelf(models.Model):
 
 class Author(models.Model):
     objects = AuthorManager()
+
     name = models.CharField(max_length=64)
     link = models.CharField(max_length=256)
     description = models.TextField()
@@ -76,6 +129,8 @@ class Author(models.Model):
 
 
 class Tag(models.Model):
+    objects = TagManager()
+
     name = models.CharField(max_length=32)
 
     def __str__(self):

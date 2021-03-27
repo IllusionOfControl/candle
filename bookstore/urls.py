@@ -13,12 +13,15 @@ urlpatterns = [
     path('author/<int:pk>', AuthorDetailView.as_view(), name='author-detail'),
 
     path('tags', TagListView.as_view(), name='tag-list'),
+    path('tags/search', TagSearchView.as_view(), name='tag-search'),
     path('tag/<int:pk>', TagDetailView.as_view(), name='tag-detail'),
 
     path('series', SeriesListView.as_view(), name='series-list'),
+    path('series/search', SeriesSearchView.as_view(), name='series-search'),
     path('series/<int:pk>', SeriesDetailView.as_view(), name='series-detail'),
 
     path('publishers', PublisherListView.as_view(), name='publisher-list'),
+    path('publishers/search', PublisherSearchView.as_view(), name='publishers-search'),
     path('publisher/<int:pk>', PublisherDetailView.as_view(), name='publisher-detail'),
 
     path('files/upload', FileUploadView.as_view(), name='file-upload'),

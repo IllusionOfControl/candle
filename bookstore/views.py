@@ -257,6 +257,12 @@ class SearchView(View):
                 return redirect(reverse('book-search') + "?query=" + query_string)   # to Book search
             elif query_subject == 'author:':
                 return redirect(reverse('author-search') + "?query=" + query_string)
+            elif query_subject == 'tag:':
+                return redirect(reverse('tag-search') + "?query=" + query_string)
+            elif query_subject == 'series:':
+                return redirect(reverse('series-search') + "?query=" + query_string)
+            elif query_subject == 'publisher:':
+                return redirect(reverse('publishers-search') + "?query=" + query_string)
             else:
                 messages.warning(self.request, 'Wrong search operator!')
                 redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
@@ -299,24 +305,19 @@ class AuthorSearchView(SubjectSearchView):
     context_object_name = 'authors'
 
 
+class TagSearchView(SubjectSearchView):
+    model = Tag
+    context_object_name = 'tags'
 
-def search(request):
-    query = request.GET.get('query', '')
-    if len(query) < 3:
-        messages.info(request, 'Query must have min 3 character!')
-        return redirect(request.META.get('HTTP_REFERER'))
 
-    payload = dict()
-    payload['query'] = query
-    payload['books'] = Book.objects.filter(Q(title__contains=query, description__contains=query))[:5]
-    payload['authors'] = Author.objects.filter(Q(name__contains=query))[:5]
-    payload['publishers'] = Publisher.objects.filter(Q(name__contains=query))[:5]
-    payload['series'] = Series.objects.filter(Q(title__contains=query))[:5]
-    payload['tags'] = Tag.objects.filter(Q(name__contains=query))[:5]
+class SeriesSearchView(SubjectSearchView):
+    model = Series
+    context_object_name = 'series'
 
-    payload['title'] = "Result search by " + query
 
-    return render(request, 'search_page.html', payload)
+class PublisherSearchView(SubjectSearchView):
+    model = Publisher
+    context_object_name = 'publishers'
 
 
 def search_subject(request, subject):

@@ -204,6 +204,12 @@ class SearchViewTest(TestCase):
         ('book:   query', reverse('book-search') + "?query=query"),
         ('author:query', reverse('author-search') + "?query=query"),
         ('author:   query', reverse('author-search') + "?query=query"),
+        ('tag:query', reverse('tag-search') + "?query=query"),
+        ('tag:   query', reverse('tag-search') + "?query=query"),
+        ('series:query', reverse('series-search') + "?query=query"),
+        ('series:   query', reverse('series-search') + "?query=query"),
+        ('publisher:query', reverse('publishers-search') + "?query=query"),
+        ('publisher:   query', reverse('publishers-search') + "?query=query"),
     ]
     default_status = 302
     path_url = '/search'
@@ -234,10 +240,10 @@ class SearchViewTest(TestCase):
         for query in self.valid_queries:
             resp = self.client.get(self.path_url + '?query={}'.format(query[0]))
             self.assertEqual(resp.status_code, self.default_status)
-
+            self.assertRedirects(resp, query[1])
             search_arg = (urlparse.parse_qs(urlparse.urlparse(resp.url).query)['query'])[0]
             self.assertEqual(search_arg, 'query')
-            self.assertRedirects(resp, query[1])
+
 
 
 class SubjectSearchViewTestMixin:
