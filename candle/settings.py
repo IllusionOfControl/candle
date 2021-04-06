@@ -125,3 +125,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = 'storage/'
 
 ITEMS_PER_PAGE = 20
+
+LOGIN_URL = '/auth/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

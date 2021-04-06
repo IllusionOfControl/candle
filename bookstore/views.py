@@ -3,6 +3,7 @@ from django.http import Http404, HttpResponse
 from django.core.files.storage import default_storage
 from django.utils.text import get_valid_filename
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import View
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, FormView
@@ -61,7 +62,7 @@ class BookAddView(CreateView):
         return response
 
 
-class BookEditView(UpdateView):
+class BookEditView(LoginRequiredMixin, UpdateView):
     template_name = 'book_editor.html'
     model = Book
     form_class = BookForm
@@ -176,7 +177,7 @@ class PublisherDetailView(DetailView):
         return context
 
 
-class FileUploadView(FormView):
+class FileUploadView(LoginRequiredMixin, FormView):
     form_class = FileUploadForm
 
     def form_valid(self, form):
@@ -195,8 +196,12 @@ class FileUploadView(FormView):
         return redirect(reverse('book-edit', kwargs={'pk': book.pk}))
 
     def form_invalid(self, form):
-        from_uri = self.request.META['HTTP_REFERER']
-        return redirect(from_uri)
+        redirect_url = self.request.META.get('HTTP_REFERER', reverse('index'))
+        return redirect(redirect_url)
+
+    def get(self, request):
+        redirect_url = self.request.META.get('HTTP_REFERER', reverse('index'))
+        return redirect(redirect_url)
 
 
 class FileDownloadView(DetailView):
@@ -211,7 +216,7 @@ class FileDownloadView(DetailView):
         return response
 
 
-class FileDeleteView(DetailView):
+class FileDeleteView(LoginRequiredMixin, DetailView):
     model = File
 
     def get(self, request, *args, **kwargs):
