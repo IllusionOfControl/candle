@@ -6,9 +6,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.base import View
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, FormView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import DetailView
 from django.conf import settings
+from django.urls import reverse_lazy
 from bookstore.models import *
 from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
@@ -116,8 +117,52 @@ class AuthorDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = '{} - detail'.format(self.object.name)
+        context['title'] = 'Author {} - detail'.format(self.object.name)
         return context
+
+
+class AuthorCreateView(LoginRequiredMixin, CreateView):
+    model = Author
+    fields = ['name', 'link', 'description']
+    template_name = 'author_form.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['link'].required = False
+        form.fields['description'].required = False
+        return form
+
+    def get_success_url(self):
+        return reverse('author-detail', kwargs={'pk': self.object.pk})
+
+
+class AuthorEditView(LoginRequiredMixin, UpdateView):
+    model = Author
+    fields = ['name', 'link', 'description']
+    template_name = 'author_form.html'
+    context_object_name = 'author'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['link'].required = False
+        form.fields['description'].required = False
+        return form
+
+    def get_success_url(self):
+        return reverse('author-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Author {} - edit'.format(self.object.name)
+        return context
+
+
+class AuthorDeleteView(LoginRequiredMixin, DeleteView):
+    model = Author
+    success_url = reverse_lazy('author-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
 
 
 class TagListView(ListView):
@@ -139,6 +184,38 @@ class TagDetailView(DetailView):
         return context
 
 
+class TagCreateView(LoginRequiredMixin, CreateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'tag_form.html'
+
+    def get_success_url(self):
+        return reverse('tag-detail', kwargs={'pk': self.object.pk})
+
+
+class TagEditView(LoginRequiredMixin, UpdateView):
+    model = Tag
+    fields = ['name']
+    template_name = 'tag_form.html'
+    context_object_name = 'tag'
+
+    def get_success_url(self):
+        return reverse('tag-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Tag {} - edit'.format(self.object.name)
+        return context
+
+
+class TagDeleteView(LoginRequiredMixin, DeleteView):
+    model = Tag
+    success_url = reverse_lazy('tag-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
 class SeriesListView(ListView):
     model = Series
     template_name = 'series_list.html'
@@ -158,6 +235,43 @@ class SeriesDetailView(DetailView):
         return context
 
 
+class SeriesCreateView(LoginRequiredMixin, CreateView):
+    model = Series
+    fields = ['title']
+    template_name = 'series_form.html'
+
+    def get_success_url(self):
+        return reverse('series-detail', kwargs={'pk': self.object.pk})
+
+
+class SeriesEditView(LoginRequiredMixin, UpdateView):
+    model = Series
+    fields = ['title', 'description']
+    template_name = 'series_form.html'
+    context_object_name = 'tag'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['description'].required = False
+        return form
+
+    def get_success_url(self):
+        return reverse('series-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Book series {} - edit'.format(self.object.title)
+        return context
+
+
+class SeriesDeleteView(LoginRequiredMixin, DeleteView):
+    model = Series
+    success_url = reverse_lazy('series-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
 class PublisherListView(ListView):
     model = Publisher
     template_name = 'publisher_list.html'
@@ -175,6 +289,48 @@ class PublisherDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Publisher "{}" - detail'.format(self.object.name)
         return context
+
+
+class PublisherCreateView(LoginRequiredMixin, CreateView):
+    model = Publisher
+    fields = ['name', 'link']
+    template_name = 'publisher_form.html'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['link'].required = False
+        return form
+
+    def get_success_url(self):
+        return reverse('publisher-detail', kwargs={'pk': self.object.pk})
+
+
+class PublisherEditView(LoginRequiredMixin, UpdateView):
+    model = Publisher
+    fields = ['name', 'link']
+    template_name = 'publisher_form.html'
+    context_object_name = 'publisher'
+
+    def get_form(self, form_class=None):
+        form = super().get_form(form_class)
+        form.fields['link'].required = False
+        return form
+
+    def get_success_url(self):
+        return reverse('publisher-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Publisher {} - edit'.format(self.object.name)
+        return context
+
+
+class PublisherDeleteView(LoginRequiredMixin, DeleteView):
+    model = Publisher
+    success_url = reverse_lazy('publisher-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
 
 
 class FileUploadView(LoginRequiredMixin, FormView):

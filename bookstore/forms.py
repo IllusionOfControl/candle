@@ -1,5 +1,5 @@
 from django import forms
-from .models import Book
+from .models import *
 
 
 class BookForm(forms.ModelForm):
@@ -15,6 +15,26 @@ class BookForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ['title', 'description', 'rating', 'tags', 'series']
+
+
+# class AuthorEditForm(forms.ModelForm):
+#     class Meta:
+#         model = Author
+#
+#
+# class TagEditForm(forms.ModelForm):
+#     class Meta:
+#         model = Tag
+#
+#
+# class SeriesEditForm(forms.ModelForm):
+#     class Meta:
+#         model = Series
+#
+#
+# class PublisherEditForm(forms.ModelForm):
+#     class Meta:
+#         model = Publisher
 
 
 class FileUploadForm(forms.Form):
