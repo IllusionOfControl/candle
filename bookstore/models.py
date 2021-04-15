@@ -151,6 +151,7 @@ class Book(models.Model):
     has_cover = models.BooleanField(default=False)
     rating = models.IntegerField(default=0)
     description = models.TextField()
+    isbn = models.CharField(max_length=16, blank=True)
 
     publisher = models.ForeignKey(Publisher, on_delete=models.SET_NULL, null=True, related_name='books', blank=True)
     series = models.ForeignKey(Series, on_delete=models.SET_NULL, null=True, related_name='books', blank=True)
@@ -181,7 +182,6 @@ class Comments(models.Model):
 class File(models.Model):
     uuid = models.UUIDField(default=uuid.uuid4)
     extension = models.CharField(max_length=8)
-    # md5 = models.CharField(max_length=32)
     size = models.IntegerField()
 
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='files')
@@ -189,13 +189,3 @@ class File(models.Model):
 
     def __str__(self):
         return self.uuid
-
-
-class Identifier(models.Model):
-    name = models.CharField(max_length=24)
-    value = models.CharField(max_length=24)
-
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='identifiers')
-
-    def __str__(self):
-        return '{}: {}'.format(self.name, self.value)
