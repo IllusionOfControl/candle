@@ -245,7 +245,6 @@ class SearchViewTest(TestCase):
             self.assertEqual(search_arg, 'query')
 
 
-
 class SubjectSearchViewTestMixin:
     model = None
     path_url = None
@@ -318,3 +317,33 @@ class AuthorSearchViewTest(SubjectSearchViewTestMixin, TestCase):
     path_name = 'author-search'
     search_attribute = 'name'
     context_object_name = 'authors'
+
+
+class TagsSearchViewTest(SubjectSearchViewTestMixin, TestCase):
+    model = Tag
+    invalid_query = 'qq'
+    valid_query = 'query'
+    path_url = '/tags/search'
+    path_name = 'tag-search'
+    search_attribute = 'name'
+    context_object_name = 'tags'
+
+
+class SeriesSearchViewTest(SubjectSearchViewTestMixin, TestCase):
+    model = Series
+    invalid_query = 'qq'
+    valid_query = 'query'
+    path_url = '/series/search'
+    path_name = 'series-search'
+    search_attribute = 'title'
+    context_object_name = 'series'
+
+
+class PublisherSearchViewTest(SubjectSearchViewTestMixin, TestCase):
+    model = Publisher
+    invalid_query = 'qq'
+    valid_query = 'query'
+    path_url = '/publishers/search'
+    path_name = 'publishers-search'
+    search_attribute = 'name'
+    context_object_name = 'publishers'
