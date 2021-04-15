@@ -103,6 +103,14 @@ class BookEditView(LoginRequiredMixin, UpdateView):
         return response
 
 
+class BookDeleteView(LoginRequiredMixin, DeleteView):
+    model = Book
+    success_url = reverse_lazy('book-list')
+
+    def get(self, *args, **kwargs):
+        return self.post(*args, **kwargs)
+
+
 class AuthorListView(ListView):
     model = Author
     template_name = 'author_list.html'
