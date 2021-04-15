@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.shortcuts import reverse
+from django.contrib.auth import get_user_model
 from .models import *
 from mixer.backend.django import Mixer
 
@@ -347,3 +348,272 @@ class PublisherSearchViewTest(SubjectSearchViewTestMixin, TestCase):
     path_name = 'publishers-search'
     search_attribute = 'name'
     context_object_name = 'publishers'
+
+
+class SubjectCreateViewTestMixin:
+    model = None
+    path_url = None
+    path_name = None
+    success_url = None
+    template_path = None
+    valid_data = {}
+    invalid_data = {}
+
+    @classmethod
+    def setUpTestData(cls):
+        get_user_model().objects.create_user('temporary', 'temporary@temp.com', 'temporary')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(reverse(self.path_name))
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_matching_with_name(self):
+        url = reverse(self.path_name)
+        self.assertEqual(url, self.path_url)
+
+    def test_template(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(reverse(self.path_name))
+        self.assertTemplateUsed(resp, self.template_path)
+
+    def test_valid_form(self):
+        self.client.login(username='temporary', password='temporary')
+        for num, data in enumerate(self.valid_data, start=1):
+            resp = self.client.post(self.path_url, data=data)
+            self.assertEqual(resp.status_code, 302)
+            self.assertRedirects(resp, self.success_url.format(num))
+
+    def test_invalid_form(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.post(self.path_url, data=self.invalid_data)
+        self.assertEqual(resp.status_code, 200)
+        for key in self.valid_data[-1].keys():
+            self.assertFormError(resp, 'form', key, 'This field is required.')
+
+    def test_without_auth(self):
+        resp = self.client.post(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+
+
+class AuthorCreateViewTest(SubjectCreateViewTestMixin, TestCase):
+    model = Author
+    path_url = '/authors/add'
+    path_name = 'author-create'
+    success_url = '/author/{}'
+    template_path = 'author_form.html'
+    valid_data = [
+        {'name': 'Test Author', 'link': 'empty', 'description': 'aaa'},
+        {'name': 'Test Author', 'link': 'empty'},
+        {'name': 'Test Author'}
+    ]
+    invalid_data = {}
+
+
+class TagCreateViewTest(SubjectCreateViewTestMixin, TestCase):
+    model = Tag
+    path_url = '/tags/add'
+    path_name = 'tag-create'
+    success_url = '/tag/{}'
+    template_path = 'tag_form.html'
+    valid_data = [{'name': 'Test Tag'}]
+    invalid_data = {}
+
+
+class SeriesCreateViewTest(SubjectCreateViewTestMixin, TestCase):
+    model = Series
+    path_url = '/series/add'
+    path_name = 'series-create'
+    success_url = '/series/{}'
+    template_path = 'series_form.html'
+    valid_data = [
+        {'title': 'Test Author', 'description': 'aaa'},
+        {'title': 'Test Author'}
+    ]
+    invalid_data = {}
+
+
+class PublisherCreateViewTest(SubjectCreateViewTestMixin, TestCase):
+    model = Publisher
+    path_url = '/publishers/add'
+    path_name = 'publisher-create'
+    success_url = '/publisher/{}'
+    template_path = 'publisher_form.html'
+    valid_data = [
+        {'name': 'Test Publisher', 'link': 'empty'},
+        {'name': 'Test Publisher'}
+    ]
+    invalid_data = {}
+
+
+class SubjectDeleteViewTestMixin:
+    model = None
+    path_url = None
+    path_name = None
+    subject_url = None
+    success_url = None
+
+    def setUp(self):
+        mixer = Mixer()
+        mixer.blend(self.model)
+        get_user_model().objects.create_user('temporary', 'temporary@temp.com', 'temporary')
+
+    def test_view_url_matching_with_name(self):
+        url = reverse(self.path_name, kwargs={'pk': 1})
+        self.assertEqual(url, self.path_url)
+
+    def test_object_on_exist(self):
+        resp = self.client.get(self.subject_url)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_object_delete(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+        self.assertRedirects(resp, self.success_url)
+        resp = self.client.get(self.subject_url)
+        self.assertEqual(resp.status_code, 404)
+
+
+class AuthorDeleteViewTest(SubjectDeleteViewTestMixin, TestCase):
+    model = Author
+    path_url = '/author/1/delete'
+    path_name = 'author-delete'
+    subject_url = '/author/1'
+    success_url = '/authors'
+
+
+class TagDeleteViewTest(SubjectDeleteViewTestMixin, TestCase):
+    model = Tag
+    path_url = '/tag/1/delete'
+    path_name = 'tag-delete'
+    subject_url = '/tag/1'
+    success_url = '/tags'
+
+
+class SeriesDeleteViewTest(SubjectDeleteViewTestMixin, TestCase):
+    model = Series
+    path_url = '/series/1/delete'
+    path_name = 'series-delete'
+    subject_url = '/series/1'
+    success_url = '/series'
+
+
+class PublisherDeleteViewTest(SubjectDeleteViewTestMixin, TestCase):
+    model = Publisher
+    path_url = '/publisher/1/delete'
+    path_name = 'publisher-delete'
+    subject_url = '/publisher/1'
+    success_url = '/publishers'
+    
+
+class SubjectEditViewTestMixin(SubjectCreateViewTestMixin):
+    model = None
+    path_url = None
+    path_name = None
+    success_url = None
+    template_path = None
+    valid_data = {}
+    invalid_data = {}
+
+    @classmethod
+    def setUpTestData(cls):
+        mixer = Mixer()
+        mixer.blend(cls.model)
+        get_user_model().objects.create_user('temporary', 'temporary@temp.com', 'temporary')
+
+    def test_view_url_exists_at_desired_location(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_accessible_by_name(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(reverse(self.path_name, kwargs={'pk': 1}))
+        self.assertEqual(resp.status_code, 200)
+
+    def test_view_url_matching_with_name(self):
+        url = reverse(self.path_name, kwargs={'pk': 1})
+        self.assertEqual(url, self.path_url)
+
+    def test_template(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.get(reverse(self.path_name, kwargs={'pk': 1}))
+        self.assertTemplateUsed(resp, self.template_path)
+
+    def test_valid_form(self):
+        self.client.login(username='temporary', password='temporary')
+        for data in self.valid_data:
+            resp = self.client.post(self.path_url, data=data)
+            self.assertEqual(resp.status_code, 302)
+            self.assertRedirects(resp, self.success_url.format(1))
+
+    def test_invalid_form(self):
+        self.client.login(username='temporary', password='temporary')
+        resp = self.client.post(self.path_url, data=self.invalid_data)
+        self.assertEqual(resp.status_code, 200)
+        for key in self.valid_data[-1].keys():
+            self.assertFormError(resp, 'form', key, 'This field is required.')
+
+    def test_without_auth(self):
+        resp = self.client.post(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+        resp = self.client.get(self.path_url)
+        self.assertEqual(resp.status_code, 302)
+
+
+class AuthorEditViewTest(SubjectEditViewTestMixin, TestCase):
+    model = Author
+    path_url = '/author/1/edit'
+    path_name = 'author-edit'
+    success_url = '/author/1'
+    template_path = 'author_form.html'
+    valid_data = [
+        {'name': 'Test Author', 'link': 'empty', 'description': 'aaa'},
+        {'name': 'Test Author', 'link': 'empty'},
+        {'name': 'Test Author'}
+    ]
+    invalid_data = {}
+
+
+class TagEditViewTest(SubjectEditViewTestMixin, TestCase):
+    model = Tag
+    path_url = '/tag/1/edit'
+    path_name = 'tag-edit'
+    success_url = '/tag/{}'
+    template_path = 'tag_form.html'
+    valid_data = [{'name': 'Test Tag'}]
+    invalid_data = {}
+
+
+class SeriesEditViewTest(SubjectEditViewTestMixin, TestCase):
+    model = Series
+    path_url = '/series/1/edit'
+    path_name = 'series-edit'
+    success_url = '/series/{}'
+    template_path = 'series_form.html'
+    valid_data = [
+        {'title': 'Test Author', 'description': 'aaa'},
+        {'title': 'Test Author'}
+    ]
+    invalid_data = {}
+
+
+class PublisherEditViewTest(SubjectEditViewTestMixin, TestCase):
+    model = Publisher
+    path_url = '/publisher/1/edit'
+    path_name = 'publisher-edit'
+    success_url = '/publisher/{}'
+    template_path = 'publisher_form.html'
+    valid_data = [
+        {'name': 'Test Publisher', 'link': 'empty'},
+        {'name': 'Test Publisher'}
+    ]
+    invalid_data = {}
