@@ -15,7 +15,6 @@ class BookForm(forms.ModelForm):
                             required=False,
                             validators=[FileExtensionValidator(VALID_COVER_EXT)])
 
-    # TODO: Add a custom file field to restrict identical MIMETYPE
     files = forms.FileField(label='Book file',
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
                             required=False, validators=[FileExtensionValidator(VALID_FILES_EXT)])

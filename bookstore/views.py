@@ -34,35 +34,6 @@ class BookDetailView(DetailView):
         return context
 
 
-class BookAddView(CreateView):
-    template_name = 'book_editor.html'
-    model = Book
-    form_class = BookForm
-
-    def get_success_url(self):
-        return reverse('book-detail', kwargs={'book_id': self.object.pk})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = '{} - add'.format(self.object.title)
-        return context
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        files = self.request.FILES.getlist('files')
-        for f in files:
-            ext = mimetypes.guess_extension(f.content_type)
-            size = f.size
-            new_file = File(book=self.object,
-                            extension=ext,
-                            size=size,
-                            uploader=self.request.user)
-            new_file.save()
-            default_storage.save('books/' + new_file.uuid.hex, f)
-
-        return response
-
-
 class BookEditView(LoginRequiredMixin, UpdateView):
     template_name = 'book_editor.html'
     model = Book
@@ -235,7 +206,6 @@ class SeriesDetailView(DetailView):
     model = Series
     template_name = 'series_detail.html'
     context_object_name = 'series'
-    # paginate_by = settings.ITEMS_PER_PAGE
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
