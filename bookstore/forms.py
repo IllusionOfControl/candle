@@ -1,41 +1,31 @@
 from django import forms
+from django.core.validators import FileExtensionValidator
 from .models import *
 
 
+VALID_FILES_EXT = ['pdf', 'djvu', 'epub', 'fb2']
+VALID_COVER_EXT = ['jpg', 'jpeg']
+
+
 class BookForm(forms.ModelForm):
+    description = forms.CharField(required=False,
+                                  widget=forms.Textarea)
 
     cover = forms.FileField(label='Cover',
-                            required=False)
+                            required=False,
+                            validators=[FileExtensionValidator(VALID_COVER_EXT)])
 
     # TODO: Add a custom file field to restrict identical MIMETYPE
     files = forms.FileField(label='Book file',
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
-                            required=False)
+                            required=False, validators=[FileExtensionValidator(VALID_FILES_EXT)])
 
     class Meta:
         model = Book
         fields = ['title', 'description', 'rating', 'tags', 'series']
 
 
-# class AuthorEditForm(forms.ModelForm):
-#     class Meta:
-#         model = Author
-#
-#
-# class TagEditForm(forms.ModelForm):
-#     class Meta:
-#         model = Tag
-#
-#
-# class SeriesEditForm(forms.ModelForm):
-#     class Meta:
-#         model = Series
-#
-#
-# class PublisherEditForm(forms.ModelForm):
-#     class Meta:
-#         model = Publisher
-
-
 class FileUploadForm(forms.Form):
-    files = forms.FileField(label='Book file', widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    files = forms.FileField(label='Book file',
+                            widget=forms.ClearableFileInput(attrs={'multiple': True}),
+                            validators=[FileExtensionValidator(VALID_COVER_EXT)])
