@@ -1,20 +1,14 @@
 {% extends '_base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block content %}
     {% if form.errors %}
         {{ form.non_field_errors }}
     {% endif %}
     <form action="" method="post">
         {% csrf_token %}
-        {% for field in form %}
-            <div class="fieldWrapper">
-            {{ field.label }}
-            {{ field }}
-            {% if field.errors %}
-                <p>{{ field.errors }}</p>
-            {% endif %}
-            </div>
-        {% endfor %}
-        <input type="submit" value="Submit">
+        {{ form|crispy }}
+        <input class="btn btn-primary" type="submit" value="Submit">
     </form>
 {% endblock %}

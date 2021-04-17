@@ -445,7 +445,7 @@ class SearchView(View):
 
         query_string = re.match(r'\s*(.*)', query_string).group(1)
 
-        if len(query_string) < 0:
+        if len(query_string) < 3:
             messages.warning(self.request, 'Query must have min 3 character!')
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)
