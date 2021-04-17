@@ -1,58 +1,116 @@
+{% load static %}
+
+{% url 'index' as booklist_url %}
+{% url 'author-list' as authorlist_url %}
+{% url 'tag-list' as taglist_url %}
+{% url 'publisher-list' as publisherlist_url %}
+{% url 'series-list' as serieslist_url %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
-    <style>
-        table {
-            {#width: 100%;#}
-        }
-        td {
-            text-align: left;
-            vertical-align: top;
-            font-weight: normal;
-            border-width: 1px;
-            border-style: solid;
-            border-color: black;
-            padding: 15px;
-        }
-
-        #file-upload-submit {
-            display: none;
-        }
-
-        #file-upload-input {
-            display: none;
-        }
-        .highlight {
-            background: yellow;
-        }
-    </style>
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'css/candle.css' %}" rel="stylesheet">
 </head>
-<body>
-    <table border="1">
-        <tr>
-            <td>
-                {% include "_nav_urls.html" %}
-                <hr>
-                <form action="{% url 'search' %}">
-                    <input type="text" name="query">
-                    <input type="submit" value="Submit">
-                </form>
-            </td>
-            <td>
-                {% if messages %}
-                    <ul class="messages", style="background: yellow; ">
-                    {% for message in messages %}
-                    <li style="list-style: none" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                {% endfor %}
-                    </ul>
-                {% endif %}
 
-                {% block content %}{% endblock %}
-            </td>
-        </tr>
-    </table>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark lsic mb-3">
+    <a class="navbar-brand" href="{% url 'index' %}">Candle</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-2">
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == booklist_url %} active {% endif %}" href="{% url 'index' %}">Books</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == authorlist_url %} active {% endif %}"
+                   href="{% url 'author-list' %}">Authors</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == taglist_url %} active {% endif %}" href="{% url 'tag-list' %}">Tags</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == serieslist_url %} active {% endif %}"
+                   href="{% url 'series-list' %}">Series</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == publisherlist_url %} active {% endif %}"
+                   href="{% url 'publisher-list' %}">Publishers</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <button class="btn btn-outline-success my-2 my-sm-0" name="submit" type="submit">Search</button>
+        </form>
+        <ul class="navbar-nav ml-auto" id="navbarResponsive">
+            {% if user.is_authenticated %}
+                {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}">Admin panel</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'file-upload' %}">
+                        {% csrf_token %}
+                        <a class="btn btn-primary" href="" id="file-upload-chooser">Upload file</a>
+                        <input name="files" id="file-upload-input" type="file" multiple/>
+                        <button name='submit' id="file-upload-submit"></button>
+                    </form>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        Add
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'author-create' %}">Add author</a>
+                        <a class="dropdown-item" href="{% url 'tag-create' %}">Add tag</a>
+                        <a class="dropdown-item" href="{% url 'series-create' %}">Add book seres</a>
+                        <a class="dropdown-item" href="{% url 'publisher-create' %}">Add publisher</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        {{ user.username }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'auth:logout' %}">Logout</a>
+                    </div>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auth:login' %}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'auth:registration' %}">Registration</a>
+                </li>
+            {% endif %}
+        </ul>
+
+    </div>
+</nav>
+
+<div class="container">
+
+    {% if messages %}
+        <div class="messages" style="background: yellow; ">
+            {% for message in messages %}
+                <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
 </body>
 
 <script>
@@ -66,5 +124,9 @@
         document.getElementById('file-upload-input').click()
     }
 </script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="/static/js/bootstrap.js"></script>
 
 </html>

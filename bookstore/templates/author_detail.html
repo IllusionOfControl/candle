@@ -3,10 +3,14 @@
 {% block content %}
     <div class="author-info">
         <h3>{{ author.name }}</h3>
-        <p>Description: {{ author.description }}</p>
+        <p>{{ author.description }}</p>
     </div>
 
-    {% with books=author.books.all %}
+    <a class="btn btn-primary" href="{% url 'author-edit' author.id %}">Edit</a>
+    <a class="btn btn-danger" href="{% url 'author-delete' author.id %}">Delete</a>
+
+    {% with books=page_obj %}
         {% include "_book_list.html" %}
+        {% include '_pagination.html' %}
     {% endwith %}
 {% endblock %}

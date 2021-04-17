@@ -2,10 +2,21 @@
 
 {% block content %}
     <div class="author-list">
-    {% for author in authors %}
-        <div class="author">
-            <p><a href="{% url 'author-detail' author.id %}">{{ author.name }}</a> ({{ author.books.count }})</p>
+        <h1>Author list</h1>
+        {% include '_order_panel.html' %}
+        <div class="pt-3">
+            {% for author in authors %}
+                <div class="author row">
+                    <div class="col-xs-2 col-sm-2 col-md-1">
+                        <span class="badge">{{ author.books.count }}</span>
+                    </div>
+                    <div class="col-xs-10 col-sm-10 col-md-11">
+                        <a id="list_0" href="{% url 'author-detail' author.id %}">
+                            {{ author.name }}
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
     </div>
 {% endblock %}

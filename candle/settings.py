@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication',
     'bookstore',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +134,5 @@ ITEMS_PER_PAGE = 20
 LOGIN_URL = '/auth/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

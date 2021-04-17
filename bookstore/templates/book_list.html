@@ -1,7 +1,12 @@
 {% extends "_base.html" %}
 
-{% block content %}
-    {% include "_book_list.html" %}
+{% load filters %}
 
-    {% include "_pagination.html" %}
+{% block content %}
+    <h1 class="">
+        {{ title }}
+    </h1>
+
+    {% include '_book_list.html' %}
+    {% include '_pagination.html' %}
 {% endblock %}

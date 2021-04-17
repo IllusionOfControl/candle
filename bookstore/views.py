@@ -11,6 +11,7 @@ from django.views.generic.detail import DetailView
 from django.conf import settings
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
+from django.db.models import Count
 from bookstore.models import *
 from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
@@ -89,6 +90,15 @@ class AuthorListView(ListView):
     context_object_name = 'authors'
     extra_context = {'title': 'Author List'}
 
+    def get_queryset(self):
+        self.queryset = self.model.objects.annotate(book_nums=Count('books'))
+        return super().get_queryset()
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', 'name')
+        # validate ordering here
+        return ordering
+
 
 class AuthorDetailView(DetailView):
     model = Author
@@ -101,6 +111,7 @@ class AuthorDetailView(DetailView):
         books = self.object.books.all()
         paginator = Paginator(books, settings.ITEMS_PER_PAGE)
         page_number = self.request.GET.get('page')
+        context['books'] = books
         context['page_obj'] = paginator.get_page(page_number)
         return context
 

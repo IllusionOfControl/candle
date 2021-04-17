@@ -1,23 +1,42 @@
 {% load filters %}
+{% load static %}
 
 {% block book_list %}
-    <div class="book-list">
-    {% for book in books %}
-        <div class="book" id="{{ book.id}}">
-        {% if query_string %}
-            <a href="{% url 'book-detail' book.id %}">{{ book.title | highlight_search:query_string }}</a>
-        {% else %}
-            <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
-        {% endif %}
-            <p>Author:
-                {% for author in book.authors.all %}
-                    {{  author.name }}
-                {% endfor %}
-            </p>
-            <p>Pub date: {{ book.publicated_at }}</p>
-            <p>Rating: {{ book.rating  }}</p>
-        <hr>
+    <div class="pt-3">
+        <h4>Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} books of {{ page_obj.paginator.count }}</h4>
+
+        <div class="d-flex flex-wrap justify-content-start justify-content-sm-center justify-content-md-start">
+            {% for book in books %}
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4 col-xl-2 book" id="books">
+                    <div class="cover">
+                        <a href="{% url 'book-detail' book.id %}">
+            <span class="img">
+                {% if book.has_cover %}
+                    <img src="{% url 'book-cover' book.id %}" alt="Контрольная ОКТ 2020-1"
+                         class="img-thumbnail book-list-cover">
+                {% else %}
+                    <img src="{% static 'img/default-cover.jpg' %}" alt="Контрольная ОКТ 2020-1"
+                         class="img-thumbnail book-list-cover">
+                {% endif %}
+            </span>
+                        </a>
+                    </div>
+                    <div class="meta">
+                        {% if query_string %}
+                            <a href="{% url 'book-detail' book.id %}">{{ book.title | highlight_search:query_string }}</a>
+                        {% else %}
+                            <a href="{% url 'book-detail' book.id %}">{{ book.title }}</a>
+                        {% endif %}
+                        <p class="authors">
+                            {% for author in book.authors.all %}
+                                <a class="author-name" href="{% url 'author-detail' author.id %}">
+                                <p>{{ author.name }}</p>
+                                </a>
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
     </div>
 {% endblock %}
