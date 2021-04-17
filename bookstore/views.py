@@ -10,6 +10,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormVi
 from django.views.generic.detail import DetailView
 from django.conf import settings
 from django.urls import reverse_lazy
+from django.core.paginator import Paginator
 from bookstore.models import *
 from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
@@ -97,6 +98,10 @@ class AuthorDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Author {} - detail'.format(self.object.name)
+        books = self.object.books.all()
+        paginator = Paginator(books, settings.ITEMS_PER_PAGE)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
         return context
 
 
@@ -160,6 +165,10 @@ class TagDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Tag {} - detail'.format(self.object.name)
+        books = self.object.books.all()
+        paginator = Paginator(books, settings.ITEMS_PER_PAGE)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
         return context
 
 
@@ -210,6 +219,10 @@ class SeriesDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Book series "{}" - detail'.format(self.object.title)
+        books = self.object.books.all()
+        paginator = Paginator(books, settings.ITEMS_PER_PAGE)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
         return context
 
 
@@ -266,6 +279,10 @@ class PublisherDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Publisher "{}" - detail'.format(self.object.name)
+        books = self.object.books.all()
+        paginator = Paginator(books, settings.ITEMS_PER_PAGE)
+        page_number = self.request.GET.get('page')
+        context['page_obj'] = paginator.get_page(page_number)
         return context
 
 
