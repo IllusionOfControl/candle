@@ -36,6 +36,7 @@ urlpatterns = [
     path('publisher/<int:pk>/edit', PublisherEditView.as_view(), name='publisher-edit'),
     path('publisher/<int:pk>/delete', PublisherDeleteView.as_view(), name='publisher-delete'),
 
+    path('statistic', StatisticView.as_view(), name='statistic'),
 
     path('files/upload', FileUploadView.as_view(), name='file-upload'),
     path('file/<int:pk>', FileDownloadView.as_view(), name='file-download'),

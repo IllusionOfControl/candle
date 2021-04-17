@@ -1,0 +1,50 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <table>
+    <tr class="ml-2">
+        <td>
+            <b>Book count:</b>
+        </td>
+        <td>
+            {{ book_count }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <b>Author count:</b>
+        </td>
+        <td>
+            {{ author_count }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <b>Tags count:</b>
+        </td>
+        <td>
+            {{ tag_count }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <b>Series count:</b>
+        </td>
+        <td>
+            {{ series_count }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <b>Publisher count</b>
+        </td>
+        <td>
+            {{ publisher_count }}
+        </td>
+    </tr>
+    </table>
+{% endblock %}

@@ -149,7 +149,6 @@ class Book(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     has_cover = models.BooleanField(default=False)
-    rating = models.IntegerField(default=0)
     description = models.TextField()
     isbn = models.CharField(max_length=16, blank=True)
 

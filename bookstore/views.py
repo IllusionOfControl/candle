@@ -1,3 +1,5 @@
+from _ast import Or
+
 from django.shortcuts import render, redirect, reverse
 from django.http import Http404, HttpResponse
 from django.core.files.storage import default_storage
@@ -390,7 +392,7 @@ class FileDownloadView(DetailView):
         file = self.get_object()
         response = HttpResponse(default_storage.open("books/" + file.uuid.hex).read(),
                                 content_type=mimetypes.guess_type(file.extension))
-        filename = get_valid_filename(file.book.title + file.extension)
+        filename = get_valid_filename(file.book.title + '.' + file.extension)
         response['Content-Disposition'] = 'attachment; filename=' + filename
         return response
 
@@ -418,6 +420,18 @@ class BookCoverView(DetailView):
         return response
 
 
+class StatisticView(View):
+    def get(self, request, *args, **kwargs):
+        context = {
+            'book_count': Book.objects.count(),
+            'author_count': Author.objects.count(),
+            'tag_count': Tag.objects.count(),
+            'series_count': Series.objects.count(),
+            'publisher_count': Publisher.objects.count()
+        }
+        return render(request=request, template_name='statistic.html', context=context)
+
+
 class SearchView(View):
     def get(self, request, *args, **kwargs):
         import re
@@ -438,7 +452,7 @@ class SearchView(View):
 
         if query_subject:
             if query_subject == 'book:':
-                return redirect(reverse('book-search') + "?query=" + query_string)   # to Book search
+                return redirect(reverse('book-search') + "?query=" + query_string)
             elif query_subject == 'author:':
                 return redirect(reverse('author-search') + "?query=" + query_string)
             elif query_subject == 'tag:':
@@ -471,7 +485,7 @@ class SubjectSearchView(ListView):
 
     def get(self, request, *args, **kwargs):
         query_string = self.get_query_string()
-        if len(query_string) < self.min_query_len:
+        if len(query_string) < 3:
             messages.warning(self.request, 'Query must have min 3 character!')
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)

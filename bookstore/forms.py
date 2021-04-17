@@ -2,9 +2,8 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 from .models import *
 
-
 VALID_FILES_EXT = ['pdf', 'djvu', 'epub', 'fb2']
-VALID_COVER_EXT = ['jpg', 'jpeg']
+VALID_COVER_EXT = ['jpg', 'jpeg', 'png']
 
 
 class BookForm(forms.ModelForm):
@@ -19,11 +18,11 @@ class BookForm(forms.ModelForm):
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
                             required=False, validators=[FileExtensionValidator(VALID_FILES_EXT)])
 
-    rating = forms.IntegerField(label="Rating", max_value=5, min_value=0)
+    published_at = forms.DateField(label='published_at', widget=forms.DateInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Book
-        fields = ['title', 'description', 'rating', 'tags', 'series', 'isbn']
+        fields = ['title', 'description', 'authors', 'tags', 'series', 'publisher', 'published_at', 'isbn']
 
 
 class FileUploadForm(forms.Form):

@@ -44,6 +44,14 @@
                 </td>
             </tr>
             <tr>
+                <td><b>Published at:</b></td>
+                <td>
+                    {% if book.published_at %}
+                        <p>{{ book.published_at }}</p>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
                 <td><b>Files:</b></td>
                 <td>
                     {% for file in book.files.all %}
