@@ -4,34 +4,53 @@
 
 {% block content %}
     <div class="book-info">
-        <h3>{{ book.title }}</h3>
-        {% if book.has_cover %}
-        <img src="{% url 'book-cover' book.id %}" width="150">
-        {% else %}
-        <img src="{% static 'img/default-cover.jpg' %}" width="150">
-        {% endif %}
-        <p>Description: {{ book.description }}</p>
-        <a href="{% url 'book-edit' book.pk %}">Edit book</a>
-        <p>Tags:
-            {% for tag in book.tags.all %}
-                <a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a>
-            {% endfor %}
-        </p>
-        <p>Series:
-            {% if book.series %}
-                <a href="{% url 'series-detail' book.series.id %}">{{ book.series.title }}</a>
+        <h3>Book "{{ book.title }}"</h3>
+        <div class="mb-2">
+            {% if book.has_cover %}
+                <img class="img-thumbnail" src="{% url 'book-cover' book.id %}" width="150">
+            {% else %}
+                <img class="img-thumbnail" src="{% static 'img/default-cover.jpg' %}" width="150">
             {% endif %}
-        </p>
-        <p>Publisher:
-            {% if book.publisher %}
-                <a href="{% url 'publisher-detail' book.publisher.id %}">{{ book.publisher.name }}</a>
-            {% endif %}
-        </p>
-        <p>Files:</p>
-        <div>
-            {% for file in book.files.all %}
-                <p>Download <a href="{% url 'file-download' file.id %}"> {{ file.extension }} </a></p>
-            {% endfor %}
         </div>
+        <a class="btn btn-primary" href="{% url 'book-edit' book.pk %}">Edit</a>
+        <a class="btn btn-primary" href="{% url 'book-delete' book.pk %}">Remove</a>
+        <table>
+            <tr>
+                <td><b>Description:</b></td>
+                <td>{{ book.description }}</td>
+            </tr>
+            <tr>
+                <td><b>Tags:</b></td>
+                <td>
+                    {% for tag in book.tags.all %}
+                        <a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a>
+                    {% endfor %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Series:</b></td>
+                <td>
+                    {% if book.series %}
+                        <a href="{% url 'series-detail' book.series.id %}">{{ book.series.title }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Publisher:</b></td>
+                <td>
+                    {% if book.publisher %}
+                        <a href="{% url 'publisher-detail' book.publisher.id %}">{{ book.publisher.name }}</a>
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td><b>Files:</b></td>
+                <td>
+                    {% for file in book.files.all %}
+                        <p>Download <a href="{% url 'file-download' file.id %}"> {{ file.extension }} </a></p>
+                    {% endfor %}
+                </td>
+            </tr>
+        </table>
     </div>
 {% endblock %}

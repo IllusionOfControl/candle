@@ -19,6 +19,8 @@ class BookForm(forms.ModelForm):
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
                             required=False, validators=[FileExtensionValidator(VALID_FILES_EXT)])
 
+    rating = forms.IntegerField(label="Rating", max_value=5, min_value=0)
+
     class Meta:
         model = Book
         fields = ['title', 'description', 'rating', 'tags', 'series', 'isbn']
@@ -27,4 +29,4 @@ class BookForm(forms.ModelForm):
 class FileUploadForm(forms.Form):
     files = forms.FileField(label='Book file',
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
-                            validators=[FileExtensionValidator(VALID_COVER_EXT)])
+                            validators=[FileExtensionValidator(VALID_FILES_EXT)])

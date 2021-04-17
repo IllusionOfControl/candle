@@ -1,46 +1,31 @@
 {% extends "_base.html" %}
+
 {% load filters %}
 
 {% block content %}
     <div>
         <h3>Result for search by "{{ query_string }}"</h3>
     </div>
-    <div class="book-list">
+
     {% if books %}
         {% include "_book_list.html" %}
     {% endif %}
+
     {% if authors %}
-        {% for author in authors %}
-        <div class="author">
-            <p><a href="{% url 'author-detail' author.id %}">{{ author.name }}</a> ({{ author.books.count }})</p>
-        </div>
-        {% endfor %}
+        {% include "_author_list.html" %}
     {% endif %}
 
     {% if tags %}
-        {% for tag in tags %}
-        <div class="item-list">
-            <p><a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a> ({{ tag.books.count }})</p>
-        </div>
-        {% endfor %}
+        {% include "_tag_list.html" %}
     {% endif %}
 
     {% if series %}
-        {% for book_series in series %}
-        <div class="series" id="{{ book_series.id }}">
-            <p><a href="{% url 'series-detail' book_series.id %}">{{ book_series.title }}</a> ({{ book_series.books.count }})</p>
-        </div>
-        {% endfor %}
+        {% include "_series_list.html" %}
     {% endif %}
 
     {% if publishers %}
-        {% for publisher in publishers %}
-        <div class="series" id="{{ publisher.id}}">
-            <p><a href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name }}</a> ({{ publisher.books.count }})</p>
-        </div>
-        {% endfor %}
+        {% include "_publisher_list.html" %}
     {% endif %}
-    </div>
 
     {% include "_pagination.html" %}
 {% endblock %}

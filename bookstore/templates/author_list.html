@@ -1,5 +1,7 @@
 {% extends "_base.html" %}
 
+{% load filters %}
+
 {% block content %}
     <div class="author-list">
         <h1>Author list</h1>
@@ -11,9 +13,11 @@
                         <span class="badge">{{ author.books.count }}</span>
                     </div>
                     <div class="col-xs-10 col-sm-10 col-md-11">
-                        <a id="list_0" href="{% url 'author-detail' author.id %}">
-                            {{ author.name }}
-                        </a>
+                        {% if query_string %}
+                            <a href="{% url 'author-detail' author.id %}">{{ author.name | highlight_search:query_string }}</a>
+                        {% else %}
+                            <a href="{% url 'author-detail' author.id %}">{{ author.name }}</a>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

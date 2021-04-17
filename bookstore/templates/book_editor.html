@@ -1,19 +1,32 @@
 {% extends "_base.html" %}
 
+{% load crispy_forms_tags %}
+{% load static %}
+
 {% block content %}
-    <h3>{{ title }}</h3>
+    <h3>Edit book "{{ title }}"</h3>
+
+    {% if book.has_cover %}
+        <img class="img-thumbnail" src="{% url 'book-cover' book.id %}" width="150">
+    {% else %}
+        <img class="img-thumbnail" src="{% static 'img/default-cover.jpg' %}" width="150">
+    {% endif %}
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
+
         {% if book.files %}
-        <ul>
+
             {% for file in book.files.all %}
-                <li>{{ file.extension }} - <a href="{% url 'file-delete' file.id %}">Delete</a></li>
+                <ul class="list-group list-group-horizontal">
+                    <li class="list-group-item"><a class="btn btn-danger"
+                                                   href="{% url 'file-delete' file.id %}">Remove</a></li>
+                    <li class="list-group-item"><span class="pr-2">{{ file.extension }}</span></li>
+                </ul>
             {% endfor %}
-        </ul>
         {% endif %}
-        <input type="submit" value="Submit">
+        <input class="btn btn-primary mt-2" type="submit" value="Submit">
     </form>
 
 {% endblock %}

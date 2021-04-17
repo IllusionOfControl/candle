@@ -3,6 +3,9 @@
 {% block content %}
     <div class="author-info">
         <h3>{{ author.name }}</h3>
+        {% if author.link %}
+            <a href="{{ author.link }}">Link</a>
+        {% endif %}
         <p>{{ author.description }}</p>
     </div>
 

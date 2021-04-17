@@ -2,11 +2,15 @@
 
 {% block content %}
     <div class="series-info">
-        <h3>{{ series.title }}</h3>
-        <p>Books:</p>
+        <h3>Book series "{{ series.title }}"</h3>
+        <p>{{ series.description }}</p>
     </div>
 
-    {% with books=series.books.all %}
-        {% include '_book_list.html' %}
+    <a class="btn btn-primary" href="{% url 'series-edit' series.id %}">Edit</a>
+    <a class="btn btn-danger" href="{% url 'series-delete' series.id %}">Delete</a>
+
+    {% with books=page_obj %}
+        {% include "_book_list.html" %}
+        {% include '_pagination.html' %}
     {% endwith %}
 {% endblock %}

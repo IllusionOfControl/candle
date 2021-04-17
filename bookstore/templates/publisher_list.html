@@ -2,10 +2,9 @@
 
 {% block content %}
     <div class="publisher-list">
-    {% for publisher in publishers %}
-        <div class="series" id="{{ publisher.id}}">
-            <p><a href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name }}</a> ({{ publisher.books.count }})</p>
-        </div>
-    {% endfor %}
+        <h1>Publisher list</h1>
+        {% include '_order_panel.html' %}
+
+        {% include '_publisher_list.html' %}
     </div>
 {% endblock %}

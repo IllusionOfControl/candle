@@ -44,7 +44,14 @@
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0" action="{% url 'search' %}">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query"
+                   list="search-commands">
+            <datalist id="search-commands">
+                <option value="author: ">
+                <option value="tag: ">
+                <option value="series: ">
+                <option value="publisher: ">
+            </datalist>
             <button class="btn btn-outline-success my-2 my-sm-0" name="submit" type="submit">Search</button>
         </form>
         <ul class="navbar-nav ml-auto" id="navbarResponsive">
@@ -57,7 +64,7 @@
                 <li class="nav-item">
                     <form method="post" enctype="multipart/form-data" action="{% url 'file-upload' %}">
                         {% csrf_token %}
-                        <a class="btn btn-primary" href="" id="file-upload-chooser">Upload file</a>
+                        <a class="btn btn-primary" id="file-upload-chooser">Upload file</a>
                         <input name="files" id="file-upload-input" type="file" multiple/>
                         <button name='submit' id="file-upload-submit"></button>
                     </form>

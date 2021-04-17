@@ -3,10 +3,16 @@
 {% block content %}
     <div class="publisher-info">
         <h3>{{ publisher.name }}</h3>
-        <p>Books:</p>
+        {% if publisher.link %}
+            <a href="{{ publisher.link }}">Link</a>
+        {% endif %}
     </div>
 
-    {% with books=publisher.books.all %}
+    <a class="btn btn-primary" href="{% url 'author-edit' publisher.id %}">Edit</a>
+    <a class="btn btn-danger" href="{% url 'author-delete' publisher.id %}">Delete</a>
+
+    {% with books=page_obj %}
         {% include "_book_list.html" %}
+        {% include '_pagination.html' %}
     {% endwith %}
 {% endblock %}

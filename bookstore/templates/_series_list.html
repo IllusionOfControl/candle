@@ -1,0 +1,18 @@
+{% load filters %}
+
+<div class="pt-3">
+    {% for book_series in series %}
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-1">
+                <span class="badge">{{ book_series.books.count }}</span>
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-11">
+                {% if query_string %}
+                    <a href="{% url 'series-detail' book_series.id %}">{{ book_series.title | highlight_search:query_string }}</a>
+                {% else %}
+                    <a href="{% url 'series-detail' book_series.id %}">{{ book_series.title }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

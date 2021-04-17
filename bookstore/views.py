@@ -17,12 +17,29 @@ from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
 
 
+class OrderingMixin:
+    queryset = None
+    order_by_default = 'name'
+
+    def get_queryset(self):
+        self.queryset = self.model.objects.annotate(book_nums=Count('books'))
+        return super().get_queryset()
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', self.order_by_default)
+        return ordering
+
+
 class BookListView(ListView):
     model = Book
     template_name = 'book_list.html'
     paginate_by = settings.ITEMS_PER_PAGE
     extra_context = {'title': 'Book list'}
     context_object_name = 'books'
+
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', '-created_at')
+        return ordering
 
 
 class BookDetailView(DetailView):
@@ -50,15 +67,19 @@ class BookEditView(LoginRequiredMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        from pathlib import Path
+
         response = super().form_valid(form)
         files = self.request.FILES.getlist('files')
         cover = self.request.FILES.get('cover', None)
         if cover:
             self.object.has_cover = True
             self.object.save()
+            if default_storage.exists("covers/" + self.object.uuid.hex):
+                default_storage.delete("covers/" + self.object.uuid.hex)
             default_storage.save("covers/" + self.object.uuid.hex, cover)
         for f in files:
-            ext = mimetypes.guess_extension(f.content_type)
+            ext = Path(f.name).suffix[1:].lower()
             size = f.size
 
             old_file = File.objects.filter(book=self.object, extension=ext).first()
@@ -84,20 +105,11 @@ class BookDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(*args, **kwargs)
 
 
-class AuthorListView(ListView):
+class AuthorListView(OrderingMixin, ListView):
     model = Author
     template_name = 'author_list.html'
     context_object_name = 'authors'
     extra_context = {'title': 'Author List'}
-
-    def get_queryset(self):
-        self.queryset = self.model.objects.annotate(book_nums=Count('books'))
-        return super().get_queryset()
-
-    def get_ordering(self):
-        ordering = self.request.GET.get('ordering', 'name')
-        # validate ordering here
-        return ordering
 
 
 class AuthorDetailView(DetailView):
@@ -160,7 +172,7 @@ class AuthorDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(*args, **kwargs)
 
 
-class TagListView(ListView):
+class TagListView(OrderingMixin, ListView):
     model = Tag
     template_name = 'tag_list.html'
     context_object_name = 'tags'
@@ -215,11 +227,12 @@ class TagDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(*args, **kwargs)
 
 
-class SeriesListView(ListView):
+class SeriesListView(OrderingMixin, ListView):
     model = Series
     template_name = 'series_list.html'
     context_object_name = 'series'
     extra_context = {'title': 'Series list'}
+    order_by_default = 'title'
 
 
 class SeriesDetailView(DetailView):
@@ -274,7 +287,7 @@ class SeriesDeleteView(LoginRequiredMixin, DeleteView):
         return self.post(*args, **kwargs)
 
 
-class PublisherListView(ListView):
+class PublisherListView(OrderingMixin, ListView):
     model = Publisher
     template_name = 'publisher_list.html'
     context_object_name = 'publishers'
@@ -343,11 +356,14 @@ class FileUploadView(LoginRequiredMixin, FormView):
     form_class = FileUploadForm
 
     def form_valid(self, form):
+        from pathlib import Path
+
         files = self.request.FILES.getlist('files')
         book = Book()
         book.save()
+
         for file in files:
-            ext = mimetypes.guess_extension(file.content_type)
+            ext = Path(file.name).suffix[1:].lower()
             size = file.size
             f = File(book=book,
                      extension=ext,
@@ -358,6 +374,7 @@ class FileUploadView(LoginRequiredMixin, FormView):
         return redirect(reverse('book-edit', kwargs={'pk': book.pk}))
 
     def form_invalid(self, form):
+        print(form.errors)
         redirect_url = self.request.META.get('HTTP_REFERER', reverse('index'))
         return redirect(redirect_url)
 
@@ -414,7 +431,7 @@ class SearchView(View):
 
         query_string = re.match(r'\s*(.*)', query_string).group(1)
 
-        if len(query_string) < 3:
+        if len(query_string) < 0:
             messages.warning(self.request, 'Query must have min 3 character!')
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)
@@ -454,7 +471,7 @@ class SubjectSearchView(ListView):
 
     def get(self, request, *args, **kwargs):
         query_string = self.get_query_string()
-        if len(query_string) < 3:
+        if len(query_string) < self.min_query_len:
             messages.warning(self.request, 'Query must have min 3 character!')
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)

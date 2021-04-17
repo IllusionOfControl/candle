@@ -1,0 +1,18 @@
+{% load filters %}
+
+<div class="pt-3">
+    {% for publisher in publishers %}
+        <div class="author row">
+            <div class="col-xs-2 col-sm-2 col-md-1">
+                <span class="badge">{{ publisher.books.count }}</span>
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-11">
+                {% if query_string %}
+                    <a href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name | highlight_search:query_string }}</a>
+                {% else %}
+                    <a href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

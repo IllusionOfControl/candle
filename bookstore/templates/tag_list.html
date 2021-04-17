@@ -2,10 +2,8 @@
 
 {% block content %}
     <div class="tag-list">
-    {% for tag in tags %}
-        <div class="tag" id="{{ tag.id}}">
-            <p><a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a> ({{ tag.books.count }})</p>
-        </div>
-    {% endfor %}
+        <h1>Tag list</h1>
+        {% include '_order_panel.html' %}
+        {% include '_tag_list.html' %}
     </div>
 {% endblock %}

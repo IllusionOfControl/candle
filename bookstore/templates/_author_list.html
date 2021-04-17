@@ -1,0 +1,18 @@
+{% load filters %}
+
+<div class="pt-3">
+    {% for author in authors %}
+        <div class="author row">
+            <div class="col-xs-2 col-sm-2 col-md-1">
+                <span class="badge">{{ author.books.count }}</span>
+            </div>
+            <div class="col-xs-10 col-sm-10 col-md-11">
+                {% if query_string %}
+                    <a href="{% url 'author-detail' author.id %}">{{ author.name | highlight_search:query_string }}</a>
+                {% else %}
+                    <a href="{% url 'author-detail' author.id %}">{{ author.name }}</a>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+</div>

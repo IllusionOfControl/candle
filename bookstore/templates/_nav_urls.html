@@ -1,19 +1,20 @@
 {% block nav_menu %}
-<nav style="display: block">
-    <ul>
-        <li style="list-style: none"><a href="">Book list</a></li>
-        <li style="list-style: none"><a href="">Author list</a></li>
-        <li style="list-style: none"><a href="">Tag List</a></li>
-        <li style="list-style: none"><a href="">Series List</a></li>
-        <li style="list-style: none"><a href="">Publisher list</a></li>
 
-        {% if user.is_authenticated %}
-            <p>Hello, <b>{{ user.username }}</b></p>
-            <li style="list-style: none"><a href="">Logout</a></li>
-            {% if user.is_superuser %}
-                <li style="list-style: none"><a href="">Admin panel</a></li>
-            {% endif %}
-            <hr>
+    <nav style="display: block">
+        <ul>
+            <li style="list-style: none"><a href="">Book list</a></li>
+            <li style="list-style: none"><a href="">Author list</a></li>
+            <li style="list-style: none"><a href="">Tag List</a></li>
+            <li style="list-style: none"><a href="">Series List</a></li>
+            <li style="list-style: none"><a href="">Publisher list</a></li>
+
+            {% if user.is_authenticated %}
+                <p>Hello, <b>{{ user.username }}</b></p>
+                <li style="list-style: none"><a href="">Logout</a></li>
+                {% if user.is_superuser %}
+                    <li style="list-style: none"><a href="">Admin panel</a></li>
+                {% endif %}
+                <hr>
                 <li style="list-style: none">
                     <form method="post" enctype="multipart/form-data" action="{% url 'file-upload' %}">
                         {% csrf_token %}
@@ -22,11 +23,11 @@
                         <button name='submit' id="file-upload-submit"></button>
                     </form>
                 </li>
-            <hr>
-        {% else %}
-            <li style="list-style: none"><a href="">Login</a></li>
-            <li style="list-style: none"><a href="">Registration</a></li>
-        {% endif %}
-    </ul>
-</nav>
+                <hr>
+            {% else %}
+                <li style="list-style: none"><a href="">Login</a></li>
+                <li style="list-style: none"><a href="">Registration</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 {% endblock %}

@@ -2,11 +2,14 @@
 
 {% block content %}
     <div class="tag-info">
-        <h3>{{ tag.name }}</h3>
-        <p>Books:</p>
+        <h3>Tag "{{ tag.name }}"</h3>
     </div>
 
-    {% with books=tag.books.all %}
+    <a class="btn btn-primary" href="{% url 'tag-edit' tag.id %}">Edit</a>
+    <a class="btn btn-danger" href="{% url 'tag-delete' tag.id %}">Delete</a>
+
+    {% with books=page_obj %}
         {% include "_book_list.html" %}
+        {% include '_pagination.html' %}
     {% endwith %}
 {% endblock %}
