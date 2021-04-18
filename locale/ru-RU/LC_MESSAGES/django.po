@@ -3,89 +3,90 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-18 12:46+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2021-04-18 13:04+0300\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"X-Generator: Poedit 2.4.2\n"
 
 #: bookstore/templates/_base.html:30
 msgid "Books"
-msgstr ""
+msgstr "Книги"
 
 #: bookstore/templates/_base.html:34
 msgid "Authors"
-msgstr ""
+msgstr "Авторы"
 
 #: bookstore/templates/_base.html:37
 msgid "Tags"
-msgstr ""
+msgstr "Теги"
 
 #: bookstore/templates/_base.html:41
 msgid "Series"
-msgstr ""
+msgstr "Серии"
 
 #: bookstore/templates/_base.html:45
 msgid "Publishers"
-msgstr ""
+msgstr "Издатели"
 
 #: bookstore/templates/_base.html:49
 msgid "Statistic"
-msgstr ""
+msgstr "Статистика"
 
 #: bookstore/templates/_base.html:53 bookstore/templates/_base.html:61
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: bookstore/templates/_base.html:67
 msgid "Admin panel"
-msgstr ""
+msgstr "Админ панель"
 
 #: bookstore/templates/_base.html:73
 msgid "Upload file"
-msgstr ""
+msgstr "Загрузить файл"
 
 #: bookstore/templates/_base.html:82
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: bookstore/templates/_base.html:85
 msgid "Add author"
-msgstr ""
+msgstr "Добавить автора"
 
 #: bookstore/templates/_base.html:86
 msgid "Add tag"
-msgstr ""
+msgstr "Добавить тег"
 
 #: bookstore/templates/_base.html:87
 msgid "Add book seres"
-msgstr ""
+msgstr "Добавить книжную серию"
 
 #: bookstore/templates/_base.html:88
 msgid "Add publisher"
-msgstr ""
+msgstr "Добавить издателя"
 
 #: bookstore/templates/_base.html:98
 msgid "Logout"
-msgstr ""
+msgstr "Выйти"
 
 #: bookstore/templates/_base.html:103
 #: bookstore/templates/authentication/login.html:13
 msgid "Login"
-msgstr ""
+msgstr "Войти"
 
 #: bookstore/templates/_base.html:106
 msgid "Registration"
-msgstr ""
+msgstr "Зарегестрироваться"
 
 #: bookstore/templates/_book_list.html:7
 #, python-format
@@ -93,30 +94,32 @@ msgid ""
 "Showing %(page_obj.start_index)s-%(page_obj.end_index)s books of\n"
 "            %(page_obj.paginator.count)s"
 msgstr ""
+"Показано %(page_obj.start_index)s-%(page_obj.end_index)s books из "
+"%(page_obj.paginator.count)s"
 
 #: bookstore/templates/_pagination.html:7
 msgid "first"
-msgstr ""
+msgstr "В начало"
 
 #: bookstore/templates/_pagination.html:9
 msgid "previous"
-msgstr ""
+msgstr "предыдущий"
 
 #: bookstore/templates/_pagination.html:20
 msgid "next"
-msgstr ""
+msgstr "следующий"
 
 #: bookstore/templates/_pagination.html:22
 msgid "last"
-msgstr ""
+msgstr "последний"
 
 #: bookstore/templates/authentication/register.html:13
 msgid "Register"
-msgstr ""
+msgstr "Регистрация"
 
 #: bookstore/templates/author_detail.html:6
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: bookstore/templates/author_detail.html:13
 #: bookstore/templates/book_detail.html:15
@@ -124,7 +127,7 @@ msgstr ""
 #: bookstore/templates/series_detail.html:10
 #: bookstore/templates/tag_detail.html:9
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: bookstore/templates/author_detail.html:14
 #: bookstore/templates/publisher_detail.html:13
@@ -132,50 +135,50 @@ msgstr ""
 #: bookstore/templates/tag_detail.html:10
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:391
 msgid "Delete"
-msgstr ""
+msgstr "Удалить"
 
 #: bookstore/templates/author_form.html:12
 #: bookstore/templates/publisher_form.html:12
 #: bookstore/templates/series_form.html:12 bookstore/templates/tag_form.html:12
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: bookstore/templates/author_list.html:8
 msgid "Author list"
-msgstr ""
+msgstr "Список авторов"
 
 #: bookstore/templates/book_detail.html:7
 msgid "Book"
-msgstr ""
+msgstr "Книга"
 
 #: bookstore/templates/book_detail.html:16
 #: bookstore/templates/book_editor.html:25
 msgid "Remove"
-msgstr ""
+msgstr "Удалить"
 
 #: bookstore/templates/book_detail.html:19
 msgid "Description:"
-msgstr ""
+msgstr "Описание:"
 
 #: bookstore/templates/book_detail.html:23
 msgid "Tags:"
-msgstr ""
+msgstr "Теги:"
 
 #: bookstore/templates/book_detail.html:31
 msgid "Series:"
-msgstr ""
+msgstr "Серии:"
 
 #: bookstore/templates/book_detail.html:39
 msgid "Publisher:"
-msgstr ""
+msgstr "Издатель:"
 
 #: bookstore/templates/book_detail.html:47
 msgid "Published at:"
-msgstr ""
+msgstr "Издано:"
 
 #: bookstore/templates/book_detail.html:55
 msgid "Files:"
-msgstr ""
+msgstr "Файлы:"
 
 #: bookstore/templates/book_detail.html:58
 msgid "Download"
@@ -354,6 +357,7 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:368
 #, python-format
@@ -365,6 +369,7 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:387
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:292
@@ -378,6 +383,7 @@ msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:394
 #, python-format
@@ -385,6 +391,7 @@ msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:399
 #, python-format
@@ -394,6 +401,7 @@ msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:461
 #, python-format
@@ -734,6 +742,7 @@ msgid_plural ""
 "Ensure this filename has at most %(max)d characters (it has %(length)d)."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:552
 msgid "Please either submit a file or check the clear checkbox, not both."
@@ -790,6 +799,7 @@ msgid "Please submit %d or fewer forms."
 msgid_plural "Please submit %d or fewer forms."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:352
 #, python-format
@@ -797,6 +807,7 @@ msgid "Please submit %d or more forms."
 msgid_plural "Please submit %d or more forms."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:379
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:386
@@ -880,6 +891,7 @@ msgid "%(size)d byte"
 msgid_plural "%(size)d bytes"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/template/defaultfilters.py:838
 #, python-format
@@ -1228,6 +1240,7 @@ msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:10
 #, python-format
@@ -1235,6 +1248,7 @@ msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:11
 #, python-format
@@ -1242,6 +1256,7 @@ msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:12
 #, python-format
@@ -1249,6 +1264,7 @@ msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:13
 #, python-format
@@ -1256,6 +1272,7 @@ msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:14
 #, python-format
@@ -1263,6 +1280,7 @@ msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/views/csrf.py:110
 msgid "Forbidden"
