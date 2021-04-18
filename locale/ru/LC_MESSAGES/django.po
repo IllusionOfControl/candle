@@ -3,90 +3,91 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-18 12:46+0300\n"
-"PO-Revision-Date: 2021-04-18 14:13+0300\n"
-"Language: ru_RU\n"
+"POT-Creation-Date: 2021-04-18 14:05+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"X-Generator: Poedit 2.4.2\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #: bookstore/templates/_base.html:30
 msgid "Books"
-msgstr "Книги"
+msgstr ""
 
 #: bookstore/templates/_base.html:34
 msgid "Authors"
-msgstr "Авторы"
+msgstr ""
 
 #: bookstore/templates/_base.html:37
 msgid "Tags"
-msgstr "Теги"
+msgstr ""
 
 #: bookstore/templates/_base.html:41
 msgid "Series"
-msgstr "Серии"
+msgstr ""
 
 #: bookstore/templates/_base.html:45
 msgid "Publishers"
-msgstr "Издатели"
+msgstr ""
 
 #: bookstore/templates/_base.html:49
 msgid "Statistic"
-msgstr "Статистика"
+msgstr ""
 
 #: bookstore/templates/_base.html:53 bookstore/templates/_base.html:61
 msgid "Search"
-msgstr "Поиск"
+msgstr ""
 
 #: bookstore/templates/_base.html:67
 msgid "Admin panel"
-msgstr "Админ панель"
+msgstr ""
 
 #: bookstore/templates/_base.html:73
 msgid "Upload file"
-msgstr "Загрузить файл"
+msgstr ""
 
 #: bookstore/templates/_base.html:82
 msgid "Add"
-msgstr "Добавить"
+msgstr ""
 
 #: bookstore/templates/_base.html:85
 msgid "Add author"
-msgstr "Добавить автора"
+msgstr ""
 
 #: bookstore/templates/_base.html:86
 msgid "Add tag"
-msgstr "Добавить тег"
+msgstr ""
 
 #: bookstore/templates/_base.html:87
 msgid "Add book seres"
-msgstr "Добавить книжную серию"
+msgstr ""
 
 #: bookstore/templates/_base.html:88
 msgid "Add publisher"
-msgstr "Добавить издателя"
+msgstr ""
 
 #: bookstore/templates/_base.html:98
 msgid "Logout"
-msgstr "Выйти"
+msgstr ""
 
 #: bookstore/templates/_base.html:103
 #: bookstore/templates/authentication/login.html:13
 msgid "Login"
-msgstr "Войти"
+msgstr ""
 
 #: bookstore/templates/_base.html:106
 msgid "Registration"
-msgstr "Зарегестрироваться"
+msgstr ""
 
 #: bookstore/templates/_book_list.html:7
 #, python-format
@@ -94,32 +95,30 @@ msgid ""
 "Showing %(page_obj.start_index)s-%(page_obj.end_index)s books of\n"
 "            %(page_obj.paginator.count)s"
 msgstr ""
-"Показано %(start_index)s-%(end_index)s books из \n"
-"            %(total)s"
 
 #: bookstore/templates/_pagination.html:7
 msgid "first"
-msgstr "В начало"
+msgstr ""
 
 #: bookstore/templates/_pagination.html:9
 msgid "previous"
-msgstr "предыдущий"
+msgstr ""
 
 #: bookstore/templates/_pagination.html:20
 msgid "next"
-msgstr "следующий"
+msgstr ""
 
 #: bookstore/templates/_pagination.html:22
 msgid "last"
-msgstr "последний"
+msgstr ""
 
 #: bookstore/templates/authentication/register.html:13
 msgid "Register"
-msgstr "Регистрация"
+msgstr ""
 
 #: bookstore/templates/author_detail.html:6
 msgid "Author"
-msgstr "Автор"
+msgstr ""
 
 #: bookstore/templates/author_detail.html:13
 #: bookstore/templates/book_detail.html:15
@@ -127,7 +126,7 @@ msgstr "Автор"
 #: bookstore/templates/series_detail.html:10
 #: bookstore/templates/tag_detail.html:9
 msgid "Edit"
-msgstr "Редактировать"
+msgstr ""
 
 #: bookstore/templates/author_detail.html:14
 #: bookstore/templates/publisher_detail.html:13
@@ -135,179 +134,192 @@ msgstr "Редактировать"
 #: bookstore/templates/tag_detail.html:10
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:391
 msgid "Delete"
-msgstr "Удалить"
+msgstr ""
 
 #: bookstore/templates/author_form.html:12
 #: bookstore/templates/publisher_form.html:12
 #: bookstore/templates/series_form.html:12 bookstore/templates/tag_form.html:12
 msgid "Save"
-msgstr "Сохранить"
+msgstr ""
 
 #: bookstore/templates/author_list.html:8
 msgid "Author list"
-msgstr "Список авторов"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:7
 msgid "Book"
-msgstr "Книга"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:16
 #: bookstore/templates/book_editor.html:25
 msgid "Remove"
-msgstr "Удалить"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:19
 msgid "Description:"
-msgstr "Описание:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:23
 msgid "Tags:"
-msgstr "Теги:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:31
 msgid "Series:"
-msgstr "Серии:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:39
 msgid "Publisher:"
-msgstr "Издатель:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:47
 msgid "Published at:"
-msgstr "Издано:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:55
 msgid "Files:"
-msgstr "Файлы:"
+msgstr ""
 
 #: bookstore/templates/book_detail.html:58
 msgid "Download"
-msgstr "Скачать"
+msgstr ""
 
 #: bookstore/templates/book_editor.html:8
 #, python-format
 msgid "Edit book \"%(title)s\""
-msgstr "Редактировать книгу \"%(title)s\""
+msgstr ""
 
 #: bookstore/templates/publisher_detail.html:6
 msgid "Publisher"
-msgstr "Издатель"
+msgstr ""
 
 #: bookstore/templates/publisher_list.html:6
 msgid "Publisher list"
-msgstr "Список издателей"
+msgstr ""
 
 #: bookstore/templates/search_page.html:8
 #, python-format
 msgid "Result for search of %(search_object)s"
-msgstr "Результат поиска %(search_object)s"
+msgstr ""
 
 #: bookstore/templates/search_page.html:10
 #, python-format
 msgid "Number of %(search_object)s is %(objects_count)s"
-msgstr "Количество %(search_object)s %(objects_count)s"
+msgstr ""
 
 #: bookstore/templates/series_detail.html:6
 msgid "Book series"
-msgstr "Серия книг"
+msgstr ""
 
 #: bookstore/templates/series_form.html:7
 #, python-format
 msgid "Edit book series \"%(object.title)s\""
-msgstr "Редактировать серию книг \"%(object.title)s\""
+msgstr ""
 
 #: bookstore/templates/series_list.html:6
 msgid "Series list"
-msgstr "Список серий"
+msgstr ""
 
 #: bookstore/templates/statistic.html:8
 msgid "Book count:"
-msgstr "Количество книг:"
+msgstr ""
 
 #: bookstore/templates/statistic.html:17
 msgid "Author count:"
-msgstr "Количество авторов:"
+msgstr ""
 
 #: bookstore/templates/statistic.html:26
 msgid "Tags count:"
-msgstr "Количество тегов:"
+msgstr ""
 
 #: bookstore/templates/statistic.html:35
 msgid "Series count:"
-msgstr "Количество серий:"
+msgstr ""
 
 #: bookstore/templates/statistic.html:44
 msgid "Publisher count:"
-msgstr "Количество издателей:"
+msgstr ""
 
 #: bookstore/templates/tag_detail.html:6
 msgid "Tag"
-msgstr "Тег"
+msgstr ""
 
 #: bookstore/templates/tag_list.html:6
 msgid "Tag list"
-msgstr "Список тегов"
+msgstr ""
 
 #: bookstore/views.py:448 bookstore/views.py:490
 msgid "Query must have min 3 character!"
-msgstr "Запрос должен иметь хотя бы 3 символа!"
+msgstr ""
 
 #: bookstore/views.py:464
 msgid "Wrong search operator!"
-msgstr "Неправильный оператор поиска!"
+msgstr ""
+
+#: venv/lib/python3.9/site-packages/crispy_forms/tests/test_form_helper.py:129
+#: venv/lib/python3.9/site-packages/crispy_forms/tests/test_form_helper.py:139
+#: venv/lib/python3.9/site-packages/django/forms/fields.py:54
+msgid "This field is required."
+msgstr ""
+
+#: venv/lib/python3.9/site-packages/crispy_forms/tests/test_layout.py:391
+msgid "i18n text"
+msgstr ""
+
+#: venv/lib/python3.9/site-packages/crispy_forms/tests/test_layout.py:393
+msgid "i18n legend"
+msgstr ""
+
+#: venv/lib/python3.9/site-packages/crispy_forms/tests/test_layout_objects.py:134
+#: venv/lib/python3.9/site-packages/django/core/validators.py:20
+msgid "Enter a valid value."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
-msgstr "Сообщения"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/contrib/sitemaps/apps.py:7
 msgid "Site Maps"
-msgstr "Карты сайтов"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/contrib/staticfiles/apps.py:9
 msgid "Static Files"
-msgstr "Статические файлы"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/contrib/syndication/apps.py:7
 msgid "Syndication"
-msgstr "Синдикации"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/paginator.py:48
 msgid "That page number is not an integer"
-msgstr "Этот номер страницы не является числом"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/paginator.py:50
 msgid "That page number is less than 1"
-msgstr "Этот номер страницы меньше 1"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/paginator.py:55
 msgid "That page contains no results"
-msgstr "Эта страница не содержит результатов"
-
-#: venv/lib/python3.9/site-packages/django/core/validators.py:20
-msgid "Enter a valid value."
-msgstr "Введите действительное значение."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:91
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:671
 msgid "Enter a valid URL."
-msgstr "Введите действительный URL-адрес."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:145
 msgid "Enter a valid integer."
-msgstr "Введите действительный integer."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:156
 msgid "Enter a valid email address."
-msgstr "Введите действительный адрес электронной почты."
+msgstr ""
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.9/site-packages/django/core/validators.py:230
 msgid ""
 "Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
 msgstr ""
-"Введите действительный \"slug\", состоящий из букв, цифр, подчеркивает или "
-"дефис."
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:237
 msgid ""
@@ -359,7 +371,6 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:368
 #, python-format
@@ -371,7 +382,6 @@ msgid_plural ""
 "%(show_value)d)."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:387
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:292
@@ -385,7 +395,6 @@ msgid "Ensure that there are no more than %(max)s digit in total."
 msgid_plural "Ensure that there are no more than %(max)s digits in total."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:394
 #, python-format
@@ -393,7 +402,6 @@ msgid "Ensure that there are no more than %(max)s decimal place."
 msgid_plural "Ensure that there are no more than %(max)s decimal places."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:399
 #, python-format
@@ -403,7 +411,6 @@ msgid_plural ""
 "Ensure that there are no more than %(max)s digits before the decimal point."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:461
 #, python-format
@@ -411,8 +418,6 @@ msgid ""
 "File extension “%(extension)s” is not allowed. Allowed extensions are: "
 "%(allowed_extensions)s."
 msgstr ""
-"Расширение файла \"%(extension)s\" не допускается. Разрешенные расширения: "
-"%(allowed_extensions)s."
 
 #: venv/lib/python3.9/site-packages/django/core/validators.py:513
 msgid "Null characters are not allowed."
@@ -421,12 +426,12 @@ msgstr ""
 #: venv/lib/python3.9/site-packages/django/db/models/base.py:1190
 #: venv/lib/python3.9/site-packages/django/forms/models.py:760
 msgid "and"
-msgstr "и"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/db/models/base.py:1192
 #, python-format
 msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr "%(model_name)s с этим %(field_labels)s уже существует."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:100
 #, python-format
@@ -435,11 +440,11 @@ msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:101
 msgid "This field cannot be null."
-msgstr "Это поле не может быть нулевым."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:102
 msgid "This field cannot be blank."
-msgstr "Это поле не может быть пустым."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/db/models/fields/__init__.py:103
 #, python-format
@@ -696,10 +701,6 @@ msgstr ""
 msgid ":?.!"
 msgstr ""
 
-#: venv/lib/python3.9/site-packages/django/forms/fields.py:54
-msgid "This field is required."
-msgstr ""
-
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:247
 msgid "Enter a whole number."
 msgstr ""
@@ -746,7 +747,6 @@ msgid_plural ""
 "Ensure this filename has at most %(max)d characters (it has %(length)d)."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/fields.py:552
 msgid "Please either submit a file or check the clear checkbox, not both."
@@ -803,7 +803,6 @@ msgid "Please submit %d or fewer forms."
 msgid_plural "Please submit %d or fewer forms."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:352
 #, python-format
@@ -811,7 +810,6 @@ msgid "Please submit %d or more forms."
 msgid_plural "Please submit %d or more forms."
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:379
 #: venv/lib/python3.9/site-packages/django/forms/formsets.py:386
@@ -895,7 +893,6 @@ msgid "%(size)d byte"
 msgid_plural "%(size)d bytes"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/template/defaultfilters.py:838
 #, python-format
@@ -1244,7 +1241,6 @@ msgid "%d year"
 msgid_plural "%d years"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:10
 #, python-format
@@ -1252,7 +1248,6 @@ msgid "%d month"
 msgid_plural "%d months"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:11
 #, python-format
@@ -1260,7 +1255,6 @@ msgid "%d week"
 msgid_plural "%d weeks"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:12
 #, python-format
@@ -1268,7 +1262,6 @@ msgid "%d day"
 msgid_plural "%d days"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:13
 #, python-format
@@ -1276,7 +1269,6 @@ msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/utils/timesince.py:14
 #, python-format
@@ -1284,15 +1276,14 @@ msgid "%d minute"
 msgid_plural "%d minutes"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
 
 #: venv/lib/python3.9/site-packages/django/views/csrf.py:110
 msgid "Forbidden"
-msgstr "Запрещено"
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/views/csrf.py:111
 msgid "CSRF verification failed. Request aborted."
-msgstr "Проверка CSRF не удалась. Запрос прерван."
+msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/views/csrf.py:115
 msgid ""
@@ -1454,16 +1445,4 @@ msgstr ""
 
 #: venv/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:409
 msgid "Connect, get help, or contribute"
-msgstr ""
-
-#: bookstore\templates\book_list.html:7
-msgid "Book list"
-msgstr "Список книг"
-
-#: bookstore\templates\search_page.html:8
-msgid "search_object"
-msgstr ""
-
-#: bookstore\templates\search_page.html:10
-msgid "is"
 msgstr ""
