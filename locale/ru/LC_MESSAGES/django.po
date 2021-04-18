@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-18 14:05+0300\n"
+"POT-Creation-Date: 2021-04-18 14:21+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,80 +20,78 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: bookstore/templates/_base.html:30
+#: bookstore/templates/_base.html:29
 msgid "Books"
 msgstr ""
 
-#: bookstore/templates/_base.html:34
+#: bookstore/templates/_base.html:33
 msgid "Authors"
 msgstr ""
 
-#: bookstore/templates/_base.html:37
+#: bookstore/templates/_base.html:36
 msgid "Tags"
 msgstr ""
 
-#: bookstore/templates/_base.html:41
+#: bookstore/templates/_base.html:40
 msgid "Series"
 msgstr ""
 
-#: bookstore/templates/_base.html:45
+#: bookstore/templates/_base.html:44
 msgid "Publishers"
 msgstr ""
 
-#: bookstore/templates/_base.html:49
+#: bookstore/templates/_base.html:48
 msgid "Statistic"
 msgstr ""
 
-#: bookstore/templates/_base.html:53 bookstore/templates/_base.html:61
+#: bookstore/templates/_base.html:52 bookstore/templates/_base.html:60
 msgid "Search"
 msgstr ""
 
-#: bookstore/templates/_base.html:67
+#: bookstore/templates/_base.html:66
 msgid "Admin panel"
 msgstr ""
 
-#: bookstore/templates/_base.html:73
+#: bookstore/templates/_base.html:72
 msgid "Upload file"
 msgstr ""
 
-#: bookstore/templates/_base.html:82
+#: bookstore/templates/_base.html:81
 msgid "Add"
 msgstr ""
 
-#: bookstore/templates/_base.html:85
+#: bookstore/templates/_base.html:84
 msgid "Add author"
 msgstr ""
 
-#: bookstore/templates/_base.html:86
+#: bookstore/templates/_base.html:85
 msgid "Add tag"
 msgstr ""
 
-#: bookstore/templates/_base.html:87
+#: bookstore/templates/_base.html:86
 msgid "Add book seres"
 msgstr ""
 
-#: bookstore/templates/_base.html:88
+#: bookstore/templates/_base.html:87
 msgid "Add publisher"
 msgstr ""
 
-#: bookstore/templates/_base.html:98
+#: bookstore/templates/_base.html:97
 msgid "Logout"
 msgstr ""
 
-#: bookstore/templates/_base.html:103
+#: bookstore/templates/_base.html:102
 #: bookstore/templates/authentication/login.html:13
 msgid "Login"
 msgstr ""
 
-#: bookstore/templates/_base.html:106
+#: bookstore/templates/_base.html:105
 msgid "Registration"
 msgstr ""
 
 #: bookstore/templates/_book_list.html:7
 #, python-format
-msgid ""
-"Showing %(page_obj.start_index)s-%(page_obj.end_index)s books of\n"
-"            %(page_obj.paginator.count)s"
+msgid "Showing %(start_index)s-%(end_index)s books of %(total)s"
 msgstr ""
 
 #: bookstore/templates/_pagination.html:7
@@ -185,7 +183,11 @@ msgstr ""
 
 #: bookstore/templates/book_editor.html:8
 #, python-format
-msgid "Edit book \"%(title)s\""
+msgid "Edit book \"%(book.title)s\""
+msgstr ""
+
+#: bookstore/templates/book_list.html:8
+msgid "Book list"
 msgstr ""
 
 #: bookstore/templates/publisher_detail.html:6
@@ -197,13 +199,12 @@ msgid "Publisher list"
 msgstr ""
 
 #: bookstore/templates/search_page.html:8
-#, python-format
-msgid "Result for search of %(search_object)s"
+msgid "Result for search of "
 msgstr ""
 
 #: bookstore/templates/search_page.html:10
 #, python-format
-msgid "Number of %(search_object)s is %(objects_count)s"
+msgid "Number of %(search_object)s is %(objects_count)s "
 msgstr ""
 
 #: bookstore/templates/series_detail.html:6
