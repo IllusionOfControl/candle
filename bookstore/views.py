@@ -481,6 +481,8 @@ class SubjectSearchView(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Search by "{}"'.format(self.get_query_string())
         context['query_string'] = self.get_query_string()
+        context['objects_count'] = self.get_queryset().count()
+        context['search_object'] = self.context_object_name
         return context
 
     def get(self, request, *args, **kwargs):
