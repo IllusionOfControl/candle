@@ -4,8 +4,7 @@
 
 {% block book_list %}
     <div class="pt-3">
-        <h4>{% blocktrans %}Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} books of
-            {{ page_obj.paginator.count }}{% endblocktrans %}</h4>
+        <h4>{% blocktrans %}Showing {{ page_obj.start_index }}-{{ page_obj.end_index }} books of {{ page_obj.paginator.count }}{% endblocktrans %}</h4>
 
         <div class="d-flex flex-wrap justify-content-start justify-content-sm-center justify-content-md-start">
             {% for book in books %}
