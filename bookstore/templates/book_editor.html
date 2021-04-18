@@ -5,7 +5,7 @@
 {% load static %}
 
 {% block content %}
-    <h3>{% blocktrans %}Edit book "{{ book.title }}"{% endblocktrans %}</h3>
+    <h3>{{ book.title }}</h3>
 
     {% if book.has_cover %}
         <img class="img-thumbnail" src="{% url 'book-cover' book.id %}" width="150">
