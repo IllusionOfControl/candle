@@ -2,7 +2,7 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 from .models import *
 
-VALID_FILES_EXT = ['pdf', 'djvu', 'epub', 'fb2']
+VALID_FILES_EXT = ['pdf', 'djvu', 'epub', 'fb2', 'cbr', 'chm', 'html', 'mobi', 'odt', 'opf', 'rtf', 'txt']
 VALID_COVER_EXT = ['jpg', 'jpeg', 'png']
 
 
