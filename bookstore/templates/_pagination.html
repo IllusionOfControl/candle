@@ -1,11 +1,12 @@
+{% load i18n %}
 {% block pagination %}
     {% if page_obj.has_other_pages %}
         <nav class="row justify-content-center">
             <ul class="pagination">
                 {% if page_obj.has_previous %}
-                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+                    <li class="page-item"><a class="page-link" href="?page=1">&laquo; {% trans "first" %}</a></li>
                     <li class="page-item"><a class="page-link"
-                                             href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+                                             href="?page={{ page_obj.previous_page_number }}">{% trans "previous" %}</a></li>
                 {% endif %}
 
                 {% for i in page_obj.paginator.page_range %}
@@ -16,9 +17,9 @@
                     {% endif %}
                 {% endfor %}
                 {% if page_obj.has_next %}
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">{% trans "next" %}</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">{% trans "last" %}
                         &raquo;</a></li>
                 {% endif %}
             </ul>

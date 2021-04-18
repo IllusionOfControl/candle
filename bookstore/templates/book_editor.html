@@ -1,10 +1,11 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% load crispy_forms_tags %}
 {% load static %}
 
 {% block content %}
-    <h3>Edit book "{{ title }}"</h3>
+    <h3>{% blocktrans %}Edit book "{{ title }}"{% endblocktrans %}</h3>
 
     {% if book.has_cover %}
         <img class="img-thumbnail" src="{% url 'book-cover' book.id %}" width="150">
@@ -21,7 +22,7 @@
             {% for file in book.files.all %}
                 <ul class="list-group list-group-horizontal">
                     <li class="list-group-item"><a class="btn btn-danger"
-                                                   href="{% url 'file-delete' file.id %}">Remove</a></li>
+                                                   href="{% url 'file-delete' file.id %}">{% trans "Remove" %}</a></li>
                     <li class="list-group-item"><span class="pr-2">{{ file.extension }}</span></li>
                 </ul>
             {% endfor %}

@@ -1,10 +1,10 @@
 {% extends "_base.html" %}
-
 {% load static %}
+{% load i18n %}
 
 {% block content %}
     <div class="book-info">
-        <h3>Book "{{ book.title }}"</h3>
+        <h3>{% trans "Book" %} "{{ book.title }}"</h3>
         <div class="mb-2">
             {% if book.has_cover %}
                 <img class="img-thumbnail" src="{% url 'book-cover' book.id %}" width="150">
@@ -12,15 +12,15 @@
                 <img class="img-thumbnail" src="{% static 'img/default-cover.jpg' %}" width="150">
             {% endif %}
         </div>
-        <a class="btn btn-primary" href="{% url 'book-edit' book.pk %}">Edit</a>
-        <a class="btn btn-primary" href="{% url 'book-delete' book.pk %}">Remove</a>
+        <a class="btn btn-primary" href="{% url 'book-edit' book.pk %}">{% trans "Edit" %}</a>
+        <a class="btn btn-primary" href="{% url 'book-delete' book.pk %}">{% trans "Remove" %}</a>
         <table>
             <tr>
-                <td><b>Description:</b></td>
+                <td><b>{% trans "Description:" %}</b></td>
                 <td>{{ book.description }}</td>
             </tr>
             <tr>
-                <td><b>Tags:</b></td>
+                <td><b>{% trans "Tags:" %}</b></td>
                 <td>
                     {% for tag in book.tags.all %}
                         <a href="{% url 'tag-detail' tag.id %}">{{ tag.name }}</a>
@@ -28,7 +28,7 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Series:</b></td>
+                <td><b>{% trans "Series:" %}</b></td>
                 <td>
                     {% if book.series %}
                         <a href="{% url 'series-detail' book.series.id %}">{{ book.series.title }}</a>
@@ -36,7 +36,7 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Publisher:</b></td>
+                <td><b>{% trans "Publisher:" %}</b></td>
                 <td>
                     {% if book.publisher %}
                         <a href="{% url 'publisher-detail' book.publisher.id %}">{{ book.publisher.name }}</a>
@@ -44,7 +44,7 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Published at:</b></td>
+                <td><b>{% blocktrans %}Published at:{% endblocktrans %}</b></td>
                 <td>
                     {% if book.published_at %}
                         <p>{{ book.published_at }}</p>
@@ -52,10 +52,10 @@
                 </td>
             </tr>
             <tr>
-                <td><b>Files:</b></td>
+                <td><b>{% trans "Files:" %}</b></td>
                 <td>
                     {% for file in book.files.all %}
-                        <p>Download <a href="{% url 'file-download' file.id %}"> {{ file.extension }} </a></p>
+                        <p>{% trans "Download" %}<a href="{% url 'file-download' file.id %}"> {{ file.extension }}</a></p>
                     {% endfor %}
                 </td>
             </tr>

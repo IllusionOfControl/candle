@@ -1,10 +1,11 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% load filters %}
 
 {% block content %}
     <div class="author-list">
-        <h1>Author list</h1>
+        <h1>{% blocktrans %}Author list{% endblocktrans %}</h1>
         {% include '_order_panel.html' %}
         <div class="pt-3">
             {% for author in authors %}

@@ -1,12 +1,13 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="tag-info">
-        <h3>Tag "{{ tag.name }}"</h3>
+        <h3>{% trans "Tag" %} "{{ tag.name }}"</h3>
     </div>
 
-    <a class="btn btn-primary" href="{% url 'tag-edit' tag.id %}">Edit</a>
-    <a class="btn btn-danger" href="{% url 'tag-delete' tag.id %}">Delete</a>
+    <a class="btn btn-primary" href="{% url 'tag-edit' tag.id %}">{% trans "Edit" %}</a>
+    <a class="btn btn-danger" href="{% url 'tag-delete' tag.id %}">{% trans "Delete" %}</a>
 
     {% with books=page_obj %}
         {% include "_book_list.html" %}

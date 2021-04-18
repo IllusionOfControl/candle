@@ -1,10 +1,11 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <table>
     <tr class="ml-2">
         <td>
-            <b>Book count:</b>
+            <b>{% blocktrans %}Book count:{% endblocktrans %}</b>
         </td>
         <td>
             {{ book_count }}
@@ -13,7 +14,7 @@
 
     <tr>
         <td>
-            <b>Author count:</b>
+            <b>{% blocktrans %}Author count:{% endblocktrans %}</b>
         </td>
         <td>
             {{ author_count }}
@@ -22,7 +23,7 @@
 
     <tr>
         <td>
-            <b>Tags count:</b>
+            <b>{% blocktrans %}Tags count:{% endblocktrans %}</b>
         </td>
         <td>
             {{ tag_count }}
@@ -31,7 +32,7 @@
 
     <tr>
         <td>
-            <b>Series count:</b>
+            <b>{% blocktrans %}Series count:{% endblocktrans %}</b>
         </td>
         <td>
             {{ series_count }}
@@ -40,7 +41,7 @@
 
     <tr>
         <td>
-            <b>Publisher count</b>
+            <b>{% blocktrans %}Publisher count:{% endblocktrans %}</b>
         </td>
         <td>
             {{ publisher_count }}

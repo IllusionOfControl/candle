@@ -1,8 +1,9 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="publisher-list">
-        <h1>Publisher list</h1>
+        <h1>{% blocktrans %}Publisher list{% endblocktrans %}</h1>
         {% include '_order_panel.html' %}
 
         {% include '_publisher_list.html' %}

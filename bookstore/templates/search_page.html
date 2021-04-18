@@ -1,34 +1,13 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% load filters %}
 
 {% block content %}
     <div>
-        <h3>Result for search of
-            {% if books %}
-                books
-            {% endif %}
+        <h3>{% blocktrans %}Result for search of {{ search_object }}{% endblocktrans %}</h3>
 
-            {% if authors %}
-                authors
-            {% endif %}
-
-            {% if tags %}
-                tags
-            {% endif %}
-
-            {% if series %}
-                series
-            {% endif %}
-
-            {% if publishers %}
-                publishers
-            {% endif %}
-            by "{{ query_string }}"</h3>
-
-            <h5>
-                Number of {{ search_object }} is {{ objects_count }}
-            </h5>
+        <h5>{% blocktrans %}Number of {{ search_object }} is {{ objects_count }}{% endblocktrans %}</h5>
     </div>
 
     {% if books %}

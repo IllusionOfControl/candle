@@ -1,8 +1,9 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="tag-list">
-        <h1>Tag list</h1>
+        <h1>{% blocktrans %}Tag list{% endblocktrans %}</h1>
         {% include '_order_panel.html' %}
         {% include '_tag_list.html' %}
     </div>

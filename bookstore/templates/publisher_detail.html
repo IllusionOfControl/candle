@@ -1,15 +1,16 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="publisher-info">
-        <h3>Publisher "{{ publisher.name }}"</h3>
+        <h3>{% trans "Publisher" %} "{{ publisher.name }}"</h3>
         {% if publisher.link %}
             <a href="{{ publisher.link }}">Link</a>
         {% endif %}
     </div>
 
-    <a class="btn btn-primary" href="{% url 'author-edit' publisher.id %}">Edit</a>
-    <a class="btn btn-danger" href="{% url 'author-delete' publisher.id %}">Delete</a>
+    <a class="btn btn-primary" href="{% url 'publisher-edit' publisher.id %}">{% trans "Edit" %}</a>
+    <a class="btn btn-danger" href="{% url 'publisher-delete' publisher.id %}">{% trans "Delete" %}</a>
 
     {% with books=page_obj %}
         {% include "_book_list.html" %}

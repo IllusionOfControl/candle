@@ -1,5 +1,3 @@
-from _ast import Or
-
 from django.shortcuts import render, redirect, reverse
 from django.http import Http404, HttpResponse
 from django.core.files.storage import default_storage
@@ -14,6 +12,7 @@ from django.conf import settings
 from django.urls import reverse_lazy
 from django.core.paginator import Paginator
 from django.db.models import Count
+from django.utils.translation import ugettext as _
 from bookstore.models import *
 from bookstore.forms import BookForm, FileUploadForm
 import mimetypes
@@ -446,7 +445,7 @@ class SearchView(View):
         query_string = re.match(r'\s*(.*)', query_string).group(1)
 
         if len(query_string) < 3:
-            messages.warning(self.request, 'Query must have min 3 character!')
+            messages.warning(self.request, _('Query must have min 3 character!'))
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)
 
@@ -462,7 +461,7 @@ class SearchView(View):
             elif query_subject == 'publisher:':
                 return redirect(reverse('publishers-search') + "?query=" + query_string)
             else:
-                messages.warning(self.request, 'Wrong search operator!')
+                messages.warning(self.request, _('Wrong search operator!'))
                 redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
                 return redirect(redirect_uri)
 
@@ -488,7 +487,7 @@ class SubjectSearchView(ListView):
     def get(self, request, *args, **kwargs):
         query_string = self.get_query_string()
         if len(query_string) < 3:
-            messages.warning(self.request, 'Query must have min 3 character!')
+            messages.warning(self.request, _('Query must have min 3 character!'))
             redirect_uri = self.request.META.get('HTTP_REFERER', reverse('index'))
             return redirect(redirect_uri)
         self.queryset = self.model.objects.search(query_string)
@@ -518,26 +517,3 @@ class SeriesSearchView(SubjectSearchView):
 class PublisherSearchView(SubjectSearchView):
     model = Publisher
     context_object_name = 'publishers'
-
-
-def search_subject(request, subject):
-    query = request.GET.get('query', '')
-    if len(query) < 3:
-        messages.info(request, 'Query must have min 3 character!')
-        return redirect(request.META.get('HTTP_REFERER'))
-    elif subject == 'books':
-        model_filter = Q(title__contains=query, description__contains=query)
-        model = Book
-    elif subject == 'author':
-        model_filter = Q(name__contains=query)
-        model = Author
-    # etc:
-    else:
-        return Http404
-
-    objects = model.objects.filter(model_filter)
-    payload = dict()
-    payload['subject'] = subject
-    payload[subject] = objects
-    payload['title'] = "Result search by " + query
-    return render(request, 'search_by_subject.html', payload)

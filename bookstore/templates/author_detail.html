@@ -1,16 +1,17 @@
 {% extends "_base.html" %}
+{% load i18n %}
 
 {% block content %}
     <div class="author-info">
-        <h3>Author "{{ author.name }}"</h3>
+        <h3>{% trans "Author" %} "{{ author.name }}"</h3>
         {% if author.link %}
             <a href="{{ author.link }}">Link</a>
         {% endif %}
         <p>{{ author.description }}</p>
     </div>
 
-    <a class="btn btn-primary" href="{% url 'author-edit' author.id %}">Edit</a>
-    <a class="btn btn-danger" href="{% url 'author-delete' author.id %}">Delete</a>
+    <a class="btn btn-primary" href="{% url 'author-edit' author.id %}">{% trans "Edit" %}</a>
+    <a class="btn btn-danger" href="{% url 'author-delete' author.id %}">{% trans "Delete" %}</a>
 
     {% with books=page_obj %}
         {% include "_book_list.html" %}
