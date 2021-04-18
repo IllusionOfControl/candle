@@ -5,7 +5,7 @@
 
 {% block content %}
     <div>
-        <h3>{% blocktrans %}Result for search of {% endblocktrans %} {% trans search_object %}</h3>
+        <h3>{% blocktrans %}Result for search of {% endblocktrans %} {{ search_object }}</h3>
 
         <h5>{% blocktrans %}Number of {{ search_object }} is {{ objects_count }} {% endblocktrans %}</h5>
     </div>
