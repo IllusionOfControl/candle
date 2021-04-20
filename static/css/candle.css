@@ -36,3 +36,7 @@ td {
     word-wrap: break-word;
     white-space: nowrap
 }
+
+.desq-text {
+    white-space: break-spaces;
+}
