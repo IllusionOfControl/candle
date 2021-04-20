@@ -35,7 +35,7 @@ class BookListView(ListView):
     model = Book
     template_name = 'book_list.html'
     paginate_by = settings.ITEMS_PER_PAGE
-    extra_context = {'title': 'Book list'}
+    extra_context = {'title': 'Список книг'}
     context_object_name = 'books'
 
     def get_ordering(self):
@@ -64,7 +64,7 @@ class BookEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = '{} - edit'.format(self.object.title)
+        context['title'] = '{} - редактирование'.format(self.object.title)
         return context
 
     def form_valid(self, form):
@@ -110,7 +110,7 @@ class AuthorListView(OrderingMixin, ListView):
     model = Author
     template_name = 'author_list.html'
     context_object_name = 'authors'
-    extra_context = {'title': 'Author List'}
+    extra_context = {'title': 'Список авторов'}
 
 
 class AuthorDetailView(DetailView):
@@ -193,7 +193,7 @@ class TagDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Tag {} - detail'.format(self.object.name)
+        context['title'] = 'Тег "{}"'.format(self.object.name)
         books = self.object.books.all()
         paginator = Paginator(books, settings.ITEMS_PER_PAGE)
         page_number = self.request.GET.get('page')
@@ -242,7 +242,7 @@ class SeriesListView(OrderingMixin, ListView):
     model = Series
     template_name = 'series_list.html'
     context_object_name = 'series'
-    extra_context = {'title': 'Series list'}
+    extra_context = {'title': 'Список серий'}
     order_by_default = 'title'
 
 
@@ -269,6 +269,11 @@ class SeriesCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('series-detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание книжной серии'
+        return context
+
 
 class SeriesEditView(LoginRequiredMixin, UpdateView):
     model = Series
@@ -286,7 +291,7 @@ class SeriesEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Book series {} - edit'.format(self.object.title)
+        context['title'] = 'Книжная серия {} - редактирование'.format(self.object.title)
         return context
 
 
@@ -302,7 +307,7 @@ class PublisherListView(OrderingMixin, ListView):
     model = Publisher
     template_name = 'publisher_list.html'
     context_object_name = 'publishers'
-    extra_context = {'title': 'Publisher list'}
+    extra_context = {'title': 'Список издателей'}
 
 
 class PublisherDetailView(DetailView):
@@ -334,6 +339,11 @@ class PublisherCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('publisher-detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание издателя'
+        return context
+
 
 class PublisherEditView(LoginRequiredMixin, UpdateView):
     model = Publisher
@@ -351,7 +361,7 @@ class PublisherEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Publisher {} - edit'.format(self.object.name)
+        context['title'] = 'Издатель {} - редактирование'.format(self.object.name)
         return context
 
 
