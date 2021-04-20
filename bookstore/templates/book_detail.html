@@ -13,7 +13,7 @@
             {% endif %}
         </div>
         <a class="btn btn-primary" href="{% url 'book-edit' book.pk %}">{% trans "Edit" %}</a>
-        <a class="btn btn-warning" href="{% url 'book-delete' book.pk %}">{% trans "Remove" %}</a>
+        <a class="btn btn-danger" href="{% url 'book-delete' book.pk %}">{% trans "Remove" %}</a>
         <table>
             <tr>
                 <td><b>{% trans "Description:" %}</b></td>
