@@ -18,7 +18,9 @@ class BookForm(forms.ModelForm):
                             widget=forms.ClearableFileInput(attrs={'multiple': True}),
                             required=False, validators=[FileExtensionValidator(VALID_FILES_EXT)])
 
-    published_at = forms.DateField(label='published_at', widget=forms.DateInput(attrs={'type': 'date'}))
+    published_at = forms.DateField(label='published_at',
+                                   widget=forms.DateInput(attrs={'type': 'date'}),
+                                   required=False)
 
     class Meta:
         model = Book
