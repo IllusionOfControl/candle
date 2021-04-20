@@ -182,7 +182,7 @@ class TagListView(OrderingMixin, ListView):
     model = Tag
     template_name = 'tag_list.html'
     context_object_name = 'tags'
-    extra_context = {'title': 'Tag List'}
+    extra_context = {'title': 'Список тегов'}
 
 
 class TagDetailView(DetailView):
@@ -446,7 +446,8 @@ class StatisticView(View):
             'author_count': Author.objects.count(),
             'tag_count': Tag.objects.count(),
             'series_count': Series.objects.count(),
-            'publisher_count': Publisher.objects.count()
+            'publisher_count': Publisher.objects.count(),
+            'title': 'Статистика'
         }
         return render(request=request, template_name='statistic.html', context=context)
 
