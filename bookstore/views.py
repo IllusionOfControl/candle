@@ -143,6 +143,11 @@ class AuthorCreateView(LoginRequiredMixin, CreateView):
     def get_success_url(self):
         return reverse('author-detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание автора {}'.format(self.object.name)
+        return context
+
 
 class AuthorEditView(LoginRequiredMixin, UpdateView):
     model = Author
@@ -161,7 +166,7 @@ class AuthorEditView(LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Author {} - edit'.format(self.object.name)
+        context['title'] = 'Редактирование автора {} '.format(self.object.name)
         return context
 
 
