@@ -100,7 +100,7 @@ class BookEditView(LoginRequiredMixin, UpdateView):
 
 class BookDeleteView(LoginRequiredMixin, DeleteView):
     model = Book
-    success_url = reverse_lazy('book-list')
+    success_url = reverse_lazy('index')
 
     def get(self, *args, **kwargs):
         return self.post(*args, **kwargs)
