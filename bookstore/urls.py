@@ -6,7 +6,7 @@ urlpatterns = [
     path('books/search', BookSearchView.as_view(), name='book-search'),
     path('book/<int:pk>', BookDetailView.as_view(), name='book-detail'),
     path('book/<int:pk>/edit', BookEditView.as_view(), name='book-edit'),
-    path('book/<int:pk>/delete', BookEditView.as_view(), name='book-delete'),
+    path('book/<int:pk>/delete', BookDeleteView.as_view(), name='book-delete'),
 
     path('authors', AuthorListView.as_view(), name='author-list'),
     path('authors/add', AuthorCreateView.as_view(), name='author-create'),
