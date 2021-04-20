@@ -22,7 +22,7 @@
         <tr>
             <td><b>Автор:</b></td>
                 <td>
-                    {% for tag in book.tags.all %}
+                    {% for author in book.authors.all %}
                         <a href="{% url 'author-detail' author.id %}">{{ author.name }}</a>
                     {% endfor %}
                 </td>
