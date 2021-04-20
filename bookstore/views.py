@@ -145,7 +145,7 @@ class AuthorCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Создание автора {}'.format(self.object.name)
+        context['title'] = 'Создание автора'
         return context
 
 
@@ -208,6 +208,11 @@ class TagCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse('tag-detail', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Создание тега'
+        return context
 
 
 class TagEditView(LoginRequiredMixin, UpdateView):
