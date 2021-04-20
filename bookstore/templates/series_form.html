@@ -4,7 +4,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <h3>{% blocktrans %}Edit book series "{{ object.title }}"{% endblocktrans %}</h3>
+    <h3>{{ title }}</h3>
 
     <form action="" method="post" enctype="multipart/form-data">
         {% csrf_token %}
