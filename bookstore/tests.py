@@ -394,7 +394,7 @@ class SubjectCreateViewTestMixin:
         resp = self.client.post(self.path_url, data=self.invalid_data)
         self.assertEqual(resp.status_code, 200)
         for key in self.valid_data[-1].keys():
-            self.assertFormError(resp, 'form', key, 'This field is required.')
+            self.assertFormError(resp, 'form', key, 'Это поле не может быть пустым.')
 
     def test_without_auth(self):
         resp = self.client.post(self.path_url)
@@ -560,7 +560,7 @@ class SubjectEditViewTestMixin(SubjectCreateViewTestMixin):
         resp = self.client.post(self.path_url, data=self.invalid_data)
         self.assertEqual(resp.status_code, 200)
         for key in self.valid_data[-1].keys():
-            self.assertFormError(resp, 'form', key, 'This field is required.')
+            self.assertFormError(resp, 'form', key, 'Это поле не может быть пустым.')
 
     def test_without_auth(self):
         resp = self.client.post(self.path_url)
