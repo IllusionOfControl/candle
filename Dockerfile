@@ -17,12 +17,11 @@ COPY . ./
 # ENV DJANGO_SETTINGS_MODULE=myproject.settings
 
 # Run Django migrations
-RUN python manage.py collectstatic && \
-	python manage.py migrate
+RUN python manage.py collectstatic
 
 # Expose the port that Django is running on
 EXPOSE 8000
 
 # Define the command to start the server
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["./entrypoint.sh"]
 
