@@ -1,3 +1,9 @@
+"""
+The script generates false data to check the health of the application.
+To start, use: "python generate_fake_data.py"
+"""
+
+
 import os
 import random
 
