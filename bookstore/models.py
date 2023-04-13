@@ -4,76 +4,37 @@ from django.db.models import Q
 import uuid
 
 
-class BookManager(models.Manager):
-    use_for_related_fields = True
+class SearchMixin:
+    search_field = None
 
     def search(self, query=None):
         queryset = self.get_queryset()
         if query:
-            or_lookup = (Q(title__contains=query))
+            key = "{}__contains".format(self.search_field)
+            or_lookup = (Q(**{key: query}))
             queryset = queryset.filter(or_lookup)
 
         return queryset
 
 
-class AuthorManager(models.Manager):
-    use_for_related_fields = True
-
-    def search(self, query=None):
-        queryset = self.get_queryset()
-        if query:
-            or_lookup = (Q(name__contains=query))
-            queryset = queryset.filter(or_lookup)
-
-        return queryset
+class BookManager(SearchMixin, models.Manager):
+    search_field = "title"
 
 
-class AuthorManager(models.Manager):
-    use_for_related_fields = True
-
-    def search(self, query=None):
-        queryset = self.get_queryset()
-        if query:
-            or_lookup = (Q(name__contains=query))
-            queryset = queryset.filter(or_lookup)
-
-        return queryset
+class AuthorManager(SearchMixin, models.Manager):
+    search_field = "name"
 
 
-class TagManager(models.Manager):
-    use_for_related_fields = True
-
-    def search(self, query=None):
-        queryset = self.get_queryset()
-        if query:
-            or_lookup = (Q(name__contains=query))
-            queryset = queryset.filter(or_lookup)
-
-        return queryset
+class TagManager(SearchMixin, models.Manager):
+    search_field = "name"
 
 
-class SeriesManager(models.Manager):
-    use_for_related_fields = True
-
-    def search(self, query=None):
-        queryset = self.get_queryset()
-        if query:
-            or_lookup = (Q(title__contains=query))
-            queryset = queryset.filter(or_lookup)
-
-        return queryset
+class SeriesManager(SearchMixin, models.Manager):
+    search_field = "title"
 
 
-class PublisherManager(models.Manager):
-    use_for_related_fields = True
-
-    def search(self, query=None):
-        queryset = self.get_queryset()
-        if query:
-            or_lookup = (Q(name__contains=query))
-            queryset = queryset.filter(or_lookup)
-
-        return queryset
+class PublisherManager(SearchMixin, models.Manager):
+    search_field = "name"
 
 
 class Publisher(models.Model):
@@ -96,13 +57,11 @@ class Series(models.Model):
     description = models.TextField()
 
     class Meta:
+        ordering = ['title']
         verbose_name_plural = 'Series'
 
     def __str__(self):
         return self.title
-
-    class Meta:
-        ordering = ['title']
 
 
 class Shelf(models.Model):
@@ -174,7 +133,7 @@ class Comments(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
 
-    book = models.ForeignKey(Book, on_delete=models.CASCADE,  related_name='comments')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
 
 
