@@ -1,7 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
+from .api_views import router
 
 urlpatterns = [
+    path('api/', include((router.urls, 'candle'), namespace='api')),
+
     path('', BookListView.as_view(), name='index'),
     path('books/search', BookSearchView.as_view(), name='book-search'),
     path('book/<int:pk>', BookDetailView.as_view(), name='book-detail'),

@@ -18,7 +18,7 @@ from mixer.backend.django import Mixer
 
 mixer = Mixer(commit=False)
 
-MULTIPLIER = 1
+MULTIPLIER = 10
 AUTHOR_COUNT = MULTIPLIER * 5
 PUBLISHER_COUNT = MULTIPLIER * 5
 TAGS_COUNT = MULTIPLIER * 5
